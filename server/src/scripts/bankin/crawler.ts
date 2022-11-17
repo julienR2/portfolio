@@ -31,7 +31,7 @@ export const getTransactions = async () => {
   await page.type('#signin_email', EMAIL)
   await page.type('#signin_password', PASSWORD)
 
-  console.log('👤 Logging in')
+  console.log('Bankin - 👤 Logging in')
 
   await page.click('button[type="submit"')
   await page.waitForTimeout(1000)
@@ -39,7 +39,7 @@ export const getTransactions = async () => {
   await page.click('button[type="submit"')
   await page.waitForNavigation()
 
-  console.log('✅ Login successful')
+  console.log('Bankin - ✅ Login successful')
 
   const { accounts, transactions } = await page.evaluate(async () => {
     const bankinApi = async (url: string) => {
@@ -55,11 +55,11 @@ export const getTransactions = async () => {
         })
         const data = await response.json()
 
-        console.log('☑️ Fetching success')
+        console.log('Bankin - ☑️ Fetching success')
 
         return data
       } catch (error) {
-        console.log('❌ Fetching error', error)
+        console.log('Bankin - ❌ Fetching error', error)
       }
     }
 

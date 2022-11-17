@@ -52,7 +52,7 @@ export const getTransactions = async () => {
     PASSWORD,
   )
 
-  console.log('👤 Logging in')
+  console.log('ActivoBank - 👤 Logging in')
   try {
     await page.click('#lnkBtnLogOn')
   } catch (error) {
@@ -66,11 +66,11 @@ export const getTransactions = async () => {
   await page.click('#_lnkBtnConfirm')
   await page.waitForSelector('.excelTools a')
 
-  console.log('✅ Login successful')
+  console.log('ActivoBank - ✅ Login successful')
 
   const client = await page.target().createCDPSession()
 
-  console.log('⬇️ Downloading last transactions')
+  console.log('ActivoBank - ⬇️ Downloading last transactions')
 
   await client.send('Page.setDownloadBehavior', {
     behavior: 'allow',
@@ -79,7 +79,7 @@ export const getTransactions = async () => {
   await page.click('.excelTools a')
   await page.waitForTimeout(2000)
 
-  console.log('✅ Last transactions downloaded')
+  console.log('ActivoBank - ✅ Last transactions downloaded')
 
   await browser.close()
 }
