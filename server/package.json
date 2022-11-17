@@ -6,7 +6,7 @@
     "ts-node": "TS_NODE_TRANSPILE_ONLY=true ts-node",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"yarn ts-node ./src/index.ts\"",
     "build": "tsc",
-    "start": "PORT=8000 nodemon build/server/index.js"
+    "start": "yarn build && PORT=8000 nodemon --watch \"./build/**\" build/index.js"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.1.0",
