@@ -4,6 +4,7 @@ After=network.target
 
 [Service]
 Type=simple
+User=nowmad
 WorkingDirectory=/home/nowmad/workspace/nowmad/server
 ExecStart=/usr/bin/yarn start
 Restart=on-failure
