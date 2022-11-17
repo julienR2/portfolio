@@ -21,7 +21,7 @@ export const parseTransactions = async () => {
   const files = fs.readdirSync(ACTIVOBANK_DATA_PATH)
 
   if (!files.length) {
-    console.log('🤷‍♂️ No file to parse')
+    console.log('ActivoBank - 🤷‍♂️ No file to parse')
     return
   }
 
@@ -54,26 +54,26 @@ export const parseTransactions = async () => {
       }
     })
 
-  console.log('⏳ Updating account')
+  console.log('ActivoBank - ⏳ Updating account')
 
   const accountResponse = await supabase
     .from('Accounts')
     .upsert({ ...ACCOUNT, balance: lastBalance })
 
   if (accountResponse.error) {
-    console.log('❌ Error updating account', accountResponse.error)
+    console.log('ActivoBank - ❌ Error updating account', accountResponse.error)
   } else {
-    console.log('✅ Account updated')
+    console.log('ActivoBank - ✅ Account updated')
   }
 
-  console.log('⏳ Adding new transactions')
+  console.log('ActivoBank - ⏳ Adding new transactions')
 
   const response = await supabase.from('Transactions').upsert(transactions)
 
   if (response.error) {
-    console.log('❌ Error adding new transactions', response.error)
+    console.log('ActivoBank - ❌ Error adding new transactions', response.error)
   } else {
-    console.log('✅ Transactions added')
+    console.log('ActivoBank - ✅ Transactions added')
   }
 
   fs.renameSync(filePath, path.join(ACTIVOBANK_ARCHIVES_PATH, files[0]))

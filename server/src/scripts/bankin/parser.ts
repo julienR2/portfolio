@@ -10,25 +10,28 @@ export const parseTransactions = async ({
   accounts,
   transactions,
 }: ParseTransactionsParams) => {
-  console.log('🔄 Updating Accounts')
+  console.log('Bankin - 🔄 Updating Accounts')
 
   const accountsResponse = await supabase.from('Accounts').upsert(accounts)
 
   if (accountsResponse.error) {
-    console.log('❌ Error updating accounts', accountsResponse.error)
+    console.log('Bankin - ❌ Error updating accounts', accountsResponse.error)
   } else {
-    console.log('✅ Accounts updated')
+    console.log('Bankin - ✅ Accounts updated')
   }
 
-  console.log('🔄 Updating Transactions')
+  console.log('Bankin - 🔄 Updating Transactions')
 
   const transactionsResponse = await supabase
     .from('Transactions')
     .upsert(transactions)
 
   if (transactionsResponse.error) {
-    console.log('❌ Error updating transactions', transactionsResponse.error)
+    console.log(
+      'Bankin - ❌ Error updating transactions',
+      transactionsResponse.error,
+    )
   } else {
-    console.log('✅ Transactions updated')
+    console.log('Bankin - ✅ Transactions updated')
   }
 }
