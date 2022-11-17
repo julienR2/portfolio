@@ -1,0 +1,23 @@
+{
+  "name": "nowmad",
+  "private": true,
+  "scripts": {
+    "update-types": "export $(grep -v '^#' .env | xargs) && npx supabase gen types typescript --project-id \"$SUPABASE_PROJECT_ID\" > types/supabase.ts"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "^2.1.0",
+    "cross-env": "^7.0.3"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.43.0",
+    "@typescript-eslint/parser": "^5.43.0",
+    "eslint": "^8.27.0",
+    "eslint-config-universe": "^11.1.1",
+    "eslint-plugin-react-hooks": "^4.6.0"
+  },
+  "workspaces": [
+    "utils",
+    "server",
+    "types"
+  ]
+}
