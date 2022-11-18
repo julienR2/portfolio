@@ -5,7 +5,7 @@
   "scripts": {
     "ts-node": "TS_NODE_TRANSPILE_ONLY=true ts-node",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"yarn ts-node ./src/index.ts\"",
-    "build": "tsc",
+    "build": "NODE_ENV=production tsc",
     "start": "PORT=8000 nodemon --watch \"./build/**\" -x 'node ./build/index.js || touch ./build/index.js'"
   },
   "dependencies": {

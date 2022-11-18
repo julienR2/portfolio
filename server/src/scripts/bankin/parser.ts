@@ -1,5 +1,5 @@
 import { DatabaseRow } from '../../../../types/utils'
-import { supabase } from '../../utils/supabase'
+import { supabaseService } from '../../utils/supabase'
 
 type ParseTransactionsParams = {
   accounts: DatabaseRow<'Accounts'>[]
@@ -12,7 +12,9 @@ export const parseTransactions = async ({
 }: ParseTransactionsParams) => {
   console.log('Bankin - 🔄 Updating Accounts')
 
-  const accountsResponse = await supabase.from('Accounts').upsert(accounts)
+  const accountsResponse = await supabaseService
+    .from('Accounts')
+    .upsert(accounts)
 
   if (accountsResponse.error) {
     console.log('Bankin - ❌ Error updating accounts', accountsResponse.error)
@@ -22,7 +24,7 @@ export const parseTransactions = async ({
 
   console.log('Bankin - 🔄 Updating Transactions')
 
-  const transactionsResponse = await supabase
+  const transactionsResponse = await supabaseService
     .from('Transactions')
     .upsert(transactions)
 

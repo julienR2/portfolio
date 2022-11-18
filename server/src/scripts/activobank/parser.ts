@@ -3,7 +3,7 @@ import path from 'path'
 import XLSX from 'xlsx'
 
 import { generateNumberId } from '../../utils'
-import { supabase } from '../../utils/supabase'
+import { supabaseService } from '../../utils/supabase'
 import {
   ACCOUNT,
   ACTIVOBANK_ARCHIVES_PATH,
@@ -56,7 +56,7 @@ export const parseTransactions = async () => {
 
   console.log('ActivoBank - ⏳ Updating account')
 
-  const accountResponse = await supabase
+  const accountResponse = await supabaseService
     .from('Accounts')
     .upsert({ ...ACCOUNT, balance: lastBalance })
 
@@ -68,7 +68,9 @@ export const parseTransactions = async () => {
 
   console.log('ActivoBank - ⏳ Adding new transactions')
 
-  const response = await supabase.from('Transactions').upsert(transactions)
+  const response = await supabaseService
+    .from('Transactions')
+    .upsert(transactions)
 
   if (response.error) {
     console.log('ActivoBank - ❌ Error adding new transactions', response.error)
