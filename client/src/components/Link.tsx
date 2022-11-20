@@ -26,8 +26,7 @@ const Link = ({ to, action, children, ...rest }: LinkProps) => {
         onMouseLeave={() => setIsHovered(false)}
         style={{ opacity: isHovered ? 0.5 : 1 }}
         {...props}
-        {...rest}
-      >
+        {...rest}>
         <Text>{children}</Text>
       </View>
     )

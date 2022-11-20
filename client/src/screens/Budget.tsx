@@ -1,20 +1,19 @@
 import React from 'react'
-import {
-  Bar,
-  XAxis,
-  YAxis,
-  Tooltip,
-  Legend,
-  ReferenceLine,
-  ResponsiveContainer,
-  ComposedChart,
-  Line,
-} from 'recharts'
 import { groupBy } from 'lodash'
 import { Container, useTheme } from 'native-base'
-
-import { DatabaseRow } from '../../types/utils'
-import { supabase } from '../../utils/supabase'
+import {
+  Bar,
+  ComposedChart,
+  Legend,
+  Line,
+  ReferenceLine,
+  ResponsiveContainer,
+  Tooltip,
+  XAxis,
+  YAxis,
+} from 'recharts'
+import { DatabaseRow } from '../../../types/utils'
+import { supabase } from '../utils/supabase'
 
 function Budget() {
   const { colors } = useTheme()
@@ -74,22 +73,22 @@ function Budget() {
 
   return (
     <Container style={{ width: '100%', height: 600 }}>
-      <ResponsiveContainer width='100%' height='100%'>
+      <ResponsiveContainer width="100%" height="100%">
         <ComposedChart width={500} height={300} data={expenses}>
-          <XAxis dataKey='name' />
-          <YAxis yAxisId='left' orientation='left' />
-          <YAxis yAxisId='right' orientation='right' />
+          <XAxis dataKey="name" />
+          <YAxis yAxisId="left" orientation="left" />
+          <YAxis yAxisId="right" orientation="right" />
           <Tooltip />
           <Legend />
-          <Bar yAxisId='left' dataKey='credit' fill={colors.success[100]} />
-          <Bar yAxisId='left' dataKey='debit' fill={colors.error[100]} />
+          <Bar yAxisId="left" dataKey="credit" fill={colors.success[100]} />
+          <Bar yAxisId="left" dataKey="debit" fill={colors.error[100]} />
           <Line
-            type='monotone'
-            yAxisId='right'
-            dataKey='diff'
+            type="monotone"
+            yAxisId="right"
+            dataKey="diff"
             fill={colors.error[100]}
           />
-          <ReferenceLine yAxisId='right' y={0} stroke='white' label='' />
+          <ReferenceLine yAxisId="right" y={0} stroke="white" label="" />
         </ComposedChart>
       </ResponsiveContainer>
     </Container>
