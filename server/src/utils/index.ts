@@ -1,3 +1,5 @@
+import { Request } from 'express'
+
 export const generateStringId = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
     h2 = 0x41c6ce57 ^ seed
@@ -26,3 +28,9 @@ export const generateNumberId = (str: string) => {
   }
   return hash + 2147483647 + 1
 }
+
+export const getRequestUrl = (req: Request) =>
+  req.protocol + '://' + req.get('host') + req.originalUrl
+
+export const urlJoin = (...fragments: string[]) =>
+  fragments.map((fragment) => fragment.replace(/\/$/, '')).join('/')

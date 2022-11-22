@@ -4,7 +4,7 @@ import path from 'path'
 
 import { File } from '../../../types'
 
-import { MEDIA_PATH } from '../constants'
+import { FILES_PATH } from '../constants'
 
 export const listDirectory = (
   filePath: string,
@@ -16,7 +16,7 @@ export const listDirectory = (
     .map((name) => ({
       id: name,
       name,
-      path: filePath.replace(MEDIA_PATH, ''),
+      path: filePath.replace(FILES_PATH, ''),
       url: new URL(`${currentUrl.replace(/\/$/, '')}/${name}`),
       isDirectory: fs.lstatSync(path.join(filePath, '/', name)).isDirectory(),
     }))
