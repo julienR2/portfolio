@@ -1,9 +1,10 @@
 {
   "extends": "../tsconfig.json",
   "compilerOptions": {
+    "strict": true,
     "target": "es2022",
     "noEmit": false,
-    "outDir": "./build"
+    "outDir": "./dist"
   },
   "include": ["src"]
 }
