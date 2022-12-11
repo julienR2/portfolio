@@ -1,5 +1,6 @@
-import { DatabaseRow } from '../../../../types/utils'
-import { supabaseService } from '../../utils/supabase'
+import { DatabaseRow } from '../../../../../types/utils'
+
+import { supabaseService } from '../../../utils/supabase'
 
 type ParseTransactionsParams = {
   accounts: DatabaseRow<'Accounts'>[]

@@ -1,5 +1,6 @@
 import fs from 'fs'
 import puppeteer from 'puppeteer'
+
 import { ACTIVOBANK_DATA_PATH, PASSWORD, USERNAME } from './constants'
 
 const waitUntilFileExist = (path: string) =>

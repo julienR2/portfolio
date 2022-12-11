@@ -2,7 +2,7 @@ import { executablePath } from 'puppeteer'
 import puppeteer from 'puppeteer-extra'
 import RecaptchaPlugin from 'puppeteer-extra-plugin-recaptcha'
 
-import { DatabaseRow } from '../../../../types/utils'
+import { DatabaseRow } from '../../../../../types/utils'
 
 import { EMAIL, PASSWORD } from './constants'
 

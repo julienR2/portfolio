@@ -1,5 +1,6 @@
 import path from 'path'
-import { ARCHIVES_PATH, DATA_PATH } from '../../constants'
+
+import { ARCHIVES_PATH, DATA_PATH } from '../../../constants'
 
 export const ACCOUNT = { id: 48858456, name: 'ActivoBank' }
 
