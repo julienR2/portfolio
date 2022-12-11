@@ -1,9 +1,9 @@
 import express, { Request, Response } from 'express'
 
-import { SCRIPTS } from '.'
-import { runScript } from './utils'
+import { getRequestUrl, urlJoin } from '../../utils'
 
-import { getRequestUrl, urlJoin } from '../utils'
+import { runScript } from './utils'
+import { SCRIPTS } from '.'
 
 const router = express.Router()
 

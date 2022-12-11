@@ -11,16 +11,32 @@ datasource db {
 }
 
 model User {
-  id    Int     @id @default(autoincrement())
-  email String  @unique
-  name  String?
-  files File[]
+  id            String         @id @unique @default(uuid())
+  email         String         @unique
+  password      String
+  refreshTokens RefreshToken[]
+  createdAt     DateTime       @default(now())
+  File          File[]
+}
+
+model RefreshToken {
+  id          String   @id @unique @default(uuid())
+  hashedToken String
+  userId      String
+  User        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revoked     Boolean  @default(false)
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 }
 
 model File {
-  id      Int     @id @default(autoincrement())
-  path    String
-  name    String?
-  owner   User    @relation(fields: [ownerId], references: [id])
-  ownerId Int
+  id           Int    @id @default(autoincrement())
+  path         String
+  name         String
+  extension    String
+  owner        User   @relation(fields: [ownerId], references: [id])
+  ownerId      String
+  creationDate String
+  latitude     Int?
+  longitude    Int?
 }

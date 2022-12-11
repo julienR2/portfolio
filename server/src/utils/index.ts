@@ -1,4 +1,6 @@
+import path from 'path'
 import { Request } from 'express'
+import crypto from 'crypto'
 
 export const generateStringId = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
@@ -34,3 +36,9 @@ export const getRequestUrl = (req: Request) =>
 
 export const urlJoin = (...fragments: string[]) =>
   fragments.map((fragment) => fragment.replace(/\/$/, '')).join('/')
+
+export const getExtension = (filePath: string) =>
+  path.parse(filePath).ext.slice(1).toLowerCase()
+
+export const hashToken = (token: string) =>
+  crypto.createHash('sha512').update(token).digest('hex')

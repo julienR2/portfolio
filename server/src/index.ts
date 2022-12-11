@@ -5,23 +5,17 @@ if (process.env.NODE_ENV === 'production') {
 
 import express from 'express'
 
-import scriptsRouter from './scripts/router'
-import filesRouter from './files'
-import { supabaseMiddleware } from './utils/supabase'
+import api from './api'
+import { errorHandler, notFound } from './middlewares'
 
-async function init() {
-  const app = express()
-  const port = process.env.PORT || 5000
+const app = express()
+const port = process.env.PORT || 5000
 
-  app.use('/api/scripts', supabaseMiddleware, scriptsRouter)
-  app.use('/api/files', supabaseMiddleware, filesRouter)
-  app.get('/api', (req, res) => {
-    res.send('Hello World')
-  })
+app.use(express.json())
+app.use('/api', api)
+app.use(notFound)
+app.use(errorHandler)
 
-  app.listen(port, () => {
-    console.log(`[server]: Server is running at https://localhost:${port}`)
-  })
-}
-
-init()
+app.listen(port, () => {
+  console.log(`[server]: Server is running at https://localhost:${port}`)
+})

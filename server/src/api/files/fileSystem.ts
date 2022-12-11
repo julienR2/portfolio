@@ -2,9 +2,9 @@ import { Request } from 'express'
 import fs from 'fs'
 import path from 'path'
 
-import { File } from '../../../types'
+import { File } from '../../../../types'
 
-import { FILES_PATH } from '../constants'
+import { FILES_PATH } from '../../constants'
 
 export const listDirectory = (
   filePath: string,

@@ -3,10 +3,10 @@ import path from 'path'
 import fs from 'fs'
 import mime from 'mime-types'
 
-import { FILES_PATH } from '../constants'
+import { FILES_PATH } from '../../constants'
+import { getRequestUrl } from '../../utils'
 
 import { listDirectory } from './fileSystem'
-import { getRequestUrl } from '../utils'
 
 const router = express.Router()
 

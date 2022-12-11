@@ -2,8 +2,9 @@ import fs from 'fs'
 import path from 'path'
 import XLSX from 'xlsx'
 
-import { generateNumberId } from '../../utils'
-import { supabaseService } from '../../utils/supabase'
+import { generateNumberId } from '../../../utils'
+import { supabaseService } from '../../../utils/supabase'
+
 import {
   ACCOUNT,
   ACTIVOBANK_ARCHIVES_PATH,
