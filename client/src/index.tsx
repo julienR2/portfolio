@@ -1,9 +1,15 @@
+import React from 'react'
 import { StatusBar } from 'react-native'
 import { NavigationContainer } from '@react-navigation/native'
 import { createStackNavigator } from '@react-navigation/stack'
 import { NativeBaseProvider } from 'native-base'
+import * as SplashScreen from 'expo-splash-screen'
 
-import { RootStackParamList, SCREENS } from './src/screens'
+import { RootStackParamList, SCREENS } from './screens'
+import { useStore, useStoreItem } from './hooks/useStore'
+import { useStoreHydrated } from './hooks/useStoreHydrated'
+
+SplashScreen.preventAutoHideAsync()
 
 const SCREENS_KEYS = Object.keys(SCREENS)
 
@@ -23,6 +29,16 @@ const linking = {
 const Stack = createStackNavigator<RootStackParamList>()
 
 export default function App() {
+  const { isHydrated } = useStoreHydrated({ store: useStore })
+  const [token] = useStoreItem('token')
+
+  React.useLayoutEffect(() => {
+    if (!isHydrated) return
+
+    SplashScreen.hideAsync()
+  }, [isHydrated])
+
+  if (!isHydrated) return null
   return (
     <NativeBaseProvider>
       <StatusBar barStyle="dark-content" />
