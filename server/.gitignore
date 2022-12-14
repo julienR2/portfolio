@@ -1,2 +1,4 @@
 dist
 **/exif/lib
+*.sqlite
+*.sqlite-journal
