@@ -18,7 +18,7 @@ CREATE TABLE "RefreshToken" (
 );
 
 -- CreateTable
-CREATE TABLE "File" (
+CREATE TABLE "Media" (
     "id" INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
     "path" TEXT NOT NULL,
     "name" TEXT NOT NULL,
@@ -27,7 +27,7 @@ CREATE TABLE "File" (
     "creationDate" TEXT NOT NULL,
     "latitude" INTEGER,
     "longitude" INTEGER,
-    CONSTRAINT "File_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
+    CONSTRAINT "Media_ownerId_fkey" FOREIGN KEY ("ownerId") REFERENCES "User" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 -- CreateIndex
@@ -38,3 +38,6 @@ CREATE UNIQUE INDEX "User_email_key" ON "User"("email");
 
 -- CreateIndex
 CREATE UNIQUE INDEX "RefreshToken_id_key" ON "RefreshToken"("id");
+
+-- CreateIndex
+CREATE UNIQUE INDEX "Media_path_key" ON "Media"("path");

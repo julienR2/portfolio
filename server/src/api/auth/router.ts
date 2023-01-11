@@ -3,6 +3,7 @@ import bcrypt from 'bcrypt'
 import jwt from 'jsonwebtoken'
 import { v4 as uuidv4 } from 'uuid'
 
+import { isAuthenticated } from '../../middlewares'
 import { hashToken } from '../../utils'
 import { generateTokens } from '../../utils/jwt'
 
@@ -143,7 +144,7 @@ router.post('/refreshToken', async (req, res, next) => {
 
 // This endpoint is only for demo purpose.
 // Move this logic where you need to revoke the tokens( for ex, on password reset)
-router.post('/revokeRefreshTokens', async (req, res, next) => {
+router.post('/revokeRefreshTokens', isAuthenticated, async (req, res, next) => {
   try {
     const { userId } = req.body
     await revokeTokens(userId)

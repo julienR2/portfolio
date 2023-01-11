@@ -1,9 +1,11 @@
 import express from 'express'
 
+import { isAuthenticated } from '../middlewares'
+
 import auth from './auth/router'
 import users from './users/router'
 import scripts from './users/router'
-import files from './files'
+import storage from './storage/router'
 
 const router = express.Router()
 
@@ -12,8 +14,8 @@ router.get('/', (req, res) => {
 })
 
 router.use('/auth', auth)
-router.use('/users', users)
-router.use('/scripts', scripts)
-router.use('/files', files)
+router.use('/users', isAuthenticated, users)
+router.use('/scripts', isAuthenticated, scripts)
+router.use('/storage', isAuthenticated, storage)
 
 export default router

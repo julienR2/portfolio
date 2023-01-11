@@ -1,16 +1,9 @@
 import path from 'path'
 import { spawnSync } from 'child_process'
 import fs from 'fs'
-import { getExtension } from '..'
+import { Media } from '@prisma/client'
 
-type FileMetadata = {
-  creationDate: string
-  name: string
-  extension: string
-  path: string
-  longitude?: number
-  latitude?: number
-}
+import { getExtension } from '..'
 
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms.split(/[^\d\w]+/)
@@ -24,7 +17,9 @@ const convertDMStoDD = (dms: string) => {
   return dd
 }
 
-export const getMetadata = (filePath: string): FileMetadata => {
+export const getMetadata = (
+  filePath: string,
+): Omit<Media, 'id' | 'ownerId'> => {
   const { error, output } = spawnSync(
     path.join(__dirname, './lib/exiftool'),
     ['-j', filePath],
@@ -33,11 +28,13 @@ export const getMetadata = (filePath: string): FileMetadata => {
 
   const parsedFile = path.parse(filePath)
 
-  const defaultMetada: FileMetadata = {
+  const defaultMetada = {
     creationDate: fs.statSync(filePath).birthtime.toISOString(),
     name: parsedFile.name,
     extension: getExtension(filePath),
     path: filePath,
+    longitude: null,
+    latitude: null,
   }
 
   if (error || !output[1]) return defaultMetada
@@ -45,8 +42,12 @@ export const getMetadata = (filePath: string): FileMetadata => {
   try {
     const metadata = JSON.parse(output[1])[0]
 
-    const latitude = convertDMStoDD(metadata.GPSLatitude)
-    const longitude = convertDMStoDD(metadata.GPSLongitude)
+    const latitude = metadata.GPSLatitude
+      ? convertDMStoDD(metadata.GPSLatitude)
+      : null
+    const longitude = metadata.GPSLongitude
+      ? convertDMStoDD(metadata.GPSLongitude)
+      : null
 
     return {
       creationDate: metadata.FileModifyDate as string,

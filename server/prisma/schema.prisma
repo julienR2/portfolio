@@ -16,7 +16,7 @@ model User {
   password      String
   refreshTokens RefreshToken[]
   createdAt     DateTime       @default(now())
-  File          File[]
+  Media         Media[]
 }
 
 model RefreshToken {
@@ -29,14 +29,26 @@ model RefreshToken {
   updatedAt   DateTime @updatedAt
 }
 
-model File {
-  id           Int    @id @default(autoincrement())
-  path         String
+model Media {
+  id           Int     @id @default(autoincrement())
+  path         String  @unique
   name         String
   extension    String
-  owner        User   @relation(fields: [ownerId], references: [id])
+  owner        User    @relation(fields: [ownerId], references: [id])
   ownerId      String
   creationDate String
-  latitude     Int?
-  longitude    Int?
+  latitude     Float?
+  longitude    Float?
+  tags         Tag[]
+  albums       Album[]
+}
+
+model Tag {
+  name  String  @id
+  media Media[]
+}
+
+model Album {
+  name  String  @id
+  media Media[]
 }
