@@ -2,11 +2,15 @@ import { Media } from '@prisma/client'
 
 import { prisma } from '../../utils/database'
 
-export const createOrUpdateMedia = (media: Omit<Media, 'id'>) =>
-  prisma.media.upsert({
-    where: {
-      path: media.path,
+export const createMedia = (media: Media, tags?: string[]) =>
+  prisma.media.create({
+    data: {
+      ...media,
+      tags: {
+        connectOrCreate: tags?.map((name) => ({
+          where: { name },
+          create: { name },
+        })),
+      },
     },
-    create: media,
-    update: media,
   })

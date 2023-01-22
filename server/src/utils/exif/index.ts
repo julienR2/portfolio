@@ -6,7 +6,9 @@ import { Media } from '@prisma/client'
 import { getExtension } from '..'
 
 const convertDMStoDD = (dms: string) => {
-  const [degrees, minutes, seconds, direction] = dms.split(/[^\d\w]+/)
+  const [degrees, minutes, seconds, direction] = dms
+    .replace('deg', '°')
+    .split(/[^\d\w]+/)
 
   let dd = Number(degrees) + Number(minutes) / 60 + Number(seconds) / (60 * 60)
 
@@ -29,8 +31,8 @@ export const getMetadata = (
   const parsedFile = path.parse(filePath)
 
   const defaultMetada = {
-    creationDate: fs.statSync(filePath).birthtime.toISOString(),
-    name: parsedFile.name,
+    creationTime: fs.statSync(filePath).birthtime.toISOString(),
+    filename: parsedFile.name,
     extension: getExtension(filePath),
     path: filePath,
     longitude: null,
@@ -50,8 +52,8 @@ export const getMetadata = (
       : null
 
     return {
-      creationDate: metadata.FileModifyDate as string,
-      name: metadata.FileName.split('.')[0] as string,
+      creationTime: metadata.FileModifyDate as string,
+      filename: parsedFile.name,
       extension: metadata.FileTypeExtension as string,
       latitude,
       longitude,

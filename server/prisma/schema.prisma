@@ -30,13 +30,13 @@ model RefreshToken {
 }
 
 model Media {
-  id           Int     @id @default(autoincrement())
+  id           String  @id @default(uuid())
   path         String  @unique
-  name         String
+  filename     String
   extension    String
   owner        User    @relation(fields: [ownerId], references: [id])
   ownerId      String
-  creationDate String
+  creationTime String
   latitude     Float?
   longitude    Float?
   tags         Tag[]

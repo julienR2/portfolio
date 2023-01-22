@@ -4,9 +4,9 @@ import glob from 'glob'
 import path from 'path'
 
 import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
-import { getExtension } from '../../../utils'
+import { generateStringId, getExtension } from '../../../utils'
 import { getMetadata } from '../../../utils/exif'
-import { createOrUpdateMedia } from '../../media/services'
+import { createMedia } from '../../storage/services'
 import { findUserByEmail } from '../../users/services'
 
 const IMAGES_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'nef']
@@ -17,9 +17,11 @@ const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
 const importFile = async ({
   filePath,
   userId,
+  type,
 }: {
   filePath: string
   userId: string
+  type: 'media' | 'files' | 'all'
 }) => {
   const extension = getExtension(filePath)
 
@@ -28,37 +30,45 @@ const importFile = async ({
   const isImage = IMAGES_EXTENSIONS.includes(extension)
   const isVideo = VIDEOS_EXTENSIONS.includes(extension)
 
-  if (!isImage && !isVideo) {
+  if (!isImage && !isVideo && (type === 'all' || type === 'files')) {
     console.log('Media Import - ⏳ Importing file')
     return
   }
 
+  if (type !== 'all' && type !== 'media') return
+
   const metadata = getMetadata(filePath)
 
-  console.log(`Media Import - ⏳ Importing ${isImage ? 'image' : 'video'}`)
-  console.log('metadata.creationDate', metadata.creationDate)
-  const [year, month, day] = metadata.creationDate.split(' ')[0].split(':')
+  const [year, month, day] = metadata.creationTime.split(' ')[0].split(':')
+  const id = generateStringId(metadata.filename + userId || '')
+  const newName = `${year}${month}${day}_${id}`
+  const destPath = path.join(MEDIA_PATH, year, month)
+  const destFile = path.join(destPath, `${newName}.${metadata.extension}`)
 
-  const newName = `${year}-${month}-${day} - ${metadata.name}`
-
-  const destPath = path.join(
-    MEDIA_PATH,
-    year,
-    month,
-    `${newName}.${metadata.extension}`,
-  )
-
-  fs.mkdirSync(destPath, { recursive: true })
-  fs.renameSync(filePath, destPath)
-
-  const newMetadata: Omit<Media, 'id'> = {
+  const newMetadata: Media = {
     ...metadata,
-    name: newName,
-    path: destPath,
+    id,
+    filename: newName,
+    path: destFile,
     ownerId: userId,
   }
+  const parentFolder = filePath.replace(IMPORT_PATH, '').split('/').slice(-2)[0]
+  const tags =
+    parentFolder && !parentFolder.includes('@') ? [parentFolder] : undefined
 
-  await createOrUpdateMedia(newMetadata)
+  try {
+    await createMedia(newMetadata, tags)
+
+    fs.mkdirSync(destPath, { recursive: true })
+    fs.renameSync(filePath, destFile)
+  } catch (error) {
+    console.error(
+      `❌ Error proccessing ${filePath}`,
+      metadata,
+      newMetadata,
+      error,
+    )
+  }
 }
 
 const run = async () => {
@@ -74,7 +84,7 @@ const run = async () => {
     const user = users[userEmail] || (await findUserByEmail(userEmail))
     users[userEmail] = user
 
-    await importFile({ filePath, userId: user.id })
+    await importFile({ filePath, userId: user.id, type: 'all' })
   }
 }
 
