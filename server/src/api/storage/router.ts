@@ -2,8 +2,7 @@ import express, { Request, Response } from 'express'
 import path from 'path'
 import fs from 'fs'
 import mime from 'mime-types'
-import multer from 'multer'
-import formidable from 'formidable';
+import formidable from 'formidable'
 
 import { FILES_PATH, UPLOADS_PATH } from '../../constants'
 import { getRequestUrl } from '../../utils'
@@ -11,8 +10,6 @@ import { getRequestUrl } from '../../utils'
 import { listDirectory } from './fileSystem'
 
 const router = express.Router()
-
-const upload = multer({ dest: UPLOADS_PATH })
 
 router.get('/files', async (req: Request, res: Response) => {
   const filePath = path.join(FILES_PATH, decodeURI(req.path))
@@ -53,27 +50,21 @@ router.get('/files', async (req: Request, res: Response) => {
   stream.pipe(res)
 })
 
-router.post('/upload', /*upload.any(),*/ function (req, res, next) {
-  // console.log(req)
-  console.log('fileeee', req.file)
-  console.log('body', req.body)
-  // req.file is the `avatar` file
-  // req.body will hold the text fields, if there were any
+router.post('/upload', function (req, res, next) {
   try {
-  const form = formidable({ uploadDir: UPLOADS_PATH});
+    const form = formidable({ uploadDir: UPLOADS_PATH })
 
-  form.parse(req, (err, fields, files) => {
-    if (err) {
-      next(err);
-      return;
-    }
-    
-    console.log({ fields, files });
-  });
-} catch(err) {
-console.log(err)
-}
-  //1672203817750
+    form.parse(req, (err, fields, files) => {
+      if (err) {
+        next(err)
+        return
+      }
+
+      console.log({ fields, files })
+    })
+  } catch (err) {
+    console.log(err)
+  }
 })
 
 export default router

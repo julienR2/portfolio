@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 
 import { isAuthenticated } from '../middlewares'
 
@@ -13,6 +14,7 @@ router.get('/', (req, res) => {
   res.json({ message: 'hello world' })
 })
 
+router.use(cors())
 router.use('/auth', auth)
 router.use('/users', isAuthenticated, users)
 router.use('/scripts', isAuthenticated, scripts)
