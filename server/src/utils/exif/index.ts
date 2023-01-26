@@ -19,7 +19,7 @@ const convertDMStoDD = (dms: string) => {
   return dd
 }
 
-export const getMetadata = (
+export const getExifData = (
   filePath: string,
 ): Omit<Media, 'id' | 'ownerId'> => {
   const { error, output } = spawnSync(
@@ -29,9 +29,10 @@ export const getMetadata = (
   )
 
   const parsedFile = path.parse(filePath)
+  const creationTime = fs.statSync(filePath).birthtime.toISOString()
 
   const defaultMetada = {
-    creationTime: fs.statSync(filePath).birthtime.toISOString(),
+    creationTime,
     filename: parsedFile.name,
     extension: getExtension(filePath),
     path: filePath,
@@ -52,7 +53,7 @@ export const getMetadata = (
       : null
 
     return {
-      creationTime: metadata.FileModifyDate as string,
+      creationTime: (metadata.DateTimeOriginal as string) || creationTime,
       filename: parsedFile.name,
       extension: metadata.FileTypeExtension as string,
       latitude,
