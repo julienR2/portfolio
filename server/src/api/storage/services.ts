@@ -14,3 +14,6 @@ export const createMedia = (media: Media, tags?: string[]) =>
       },
     },
   })
+
+export const deleteMedia = (id: string) =>
+  prisma.media.delete({ where: { id } })
