@@ -29,10 +29,10 @@ export const getExifData = (
   )
 
   const parsedFile = path.parse(filePath)
-  const creationTime = fs.statSync(filePath).birthtime.toISOString()
+  const birthtime = fs.statSync(filePath).birthtime.toISOString()
 
   const defaultMetada = {
-    creationTime,
+    creationTime: birthtime,
     filename: parsedFile.name,
     extension: getExtension(filePath),
     path: filePath,
@@ -44,7 +44,6 @@ export const getExifData = (
 
   try {
     const metadata = JSON.parse(output[1])[0]
-
     const latitude = metadata.GPSLatitude
       ? convertDMStoDD(metadata.GPSLatitude)
       : null
@@ -52,8 +51,17 @@ export const getExifData = (
       ? convertDMStoDD(metadata.GPSLongitude)
       : null
 
+    const parsedDateTimeOriginal = metadata.DateTimeOriginal?.replace(
+      /([0-9]+?):([0-9]+?):([0-9]+?) (.*)/,
+      '$1-$2-$3 $4',
+    )
+
+    const creationTime = new Date(
+      parsedDateTimeOriginal || birthtime,
+    ).toISOString()
+
     return {
-      creationTime: (metadata.DateTimeOriginal as string) || creationTime,
+      creationTime,
       filename: parsedFile.name,
       extension: metadata.FileTypeExtension as string,
       latitude,
