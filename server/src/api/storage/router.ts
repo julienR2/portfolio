@@ -2,12 +2,22 @@ import express, { Request, Response } from 'express'
 import path from 'path'
 import fs from 'fs'
 import mime from 'mime-types'
-import formidable from 'formidable'
+import multer from 'multer'
 
 import { FILES_PATH, UPLOADS_PATH } from '../../constants'
 import { getRequestUrl } from '../../utils'
 
 import { listDirectory } from './fileSystem'
+
+const storage = multer.diskStorage({
+  destination: UPLOADS_PATH,
+  filename: function (req, file, cb) {
+    const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
+    cb(null, file.fieldname + '-' + uniqueSuffix)
+  },
+})
+
+const upload = multer({ storage })
 
 const router = express.Router()
 
@@ -50,21 +60,13 @@ router.get('/files', async (req: Request, res: Response) => {
   stream.pipe(res)
 })
 
-router.post('/upload', function (req, res, next) {
-  try {
-    const form = formidable({ uploadDir: UPLOADS_PATH })
+router.get('/', (req, res) => {
+  res.json({ message: 'yoo storage' })
+})
 
-    form.parse(req, (err, fields, files) => {
-      if (err) {
-        next(err)
-        return
-      }
-
-      console.log({ fields, files })
-    })
-  } catch (err) {
-    console.log(err)
-  }
+router.post('/upload', upload.single('media'), function (req, res, next) {
+  console.log('file', req.file)
+  console.log('body', req.body)
 })
 
 export default router

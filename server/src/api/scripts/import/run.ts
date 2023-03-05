@@ -1,8 +1,5 @@
 import { Media, User } from '@prisma/client'
-import {
-  PrismaClientKnownRequestError,
-  PrismaClientValidationError,
-} from '@prisma/client/runtime'
+import { PrismaClientKnownRequestError } from '@prisma/client/runtime'
 import fs from 'fs'
 import glob from 'glob'
 import path from 'path'
@@ -18,13 +15,13 @@ const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']
 const IGNORE_LIST = ['DS_Store', '.*']
 const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
 
-const getMetadata = (userId: string, filePath: string, seed = 0): Media => {
+const getMetadata = (user: User, filePath: string, seed = 0): Media => {
   const metadata = getExifData(filePath)
 
-  const [year, month, day] = metadata.creationTime.split(' ')[0].split(':')
-  const id = generateStringId(metadata.filename + userId || '', seed)
+  const [year, month, day] = metadata.creationTime.split('T')[0].split('-')
+  const id = generateStringId(metadata.filename || '', seed)
   const newName = `${year}${month}${day}_${id}`
-  const destPath = path.join(MEDIA_PATH, year, month)
+  const destPath = path.join(MEDIA_PATH, user.email, year, month)
   const destFile = path.join(destPath, `${newName}.${metadata.extension}`)
 
   return {
@@ -32,18 +29,18 @@ const getMetadata = (userId: string, filePath: string, seed = 0): Media => {
     id,
     filename: newName,
     path: destFile,
-    ownerId: userId,
+    ownerId: user.id,
   }
 }
 
 const importFile = async ({
   filePath,
-  userId,
+  user,
   type,
   forceUnicity,
 }: {
   filePath: string
-  userId: string
+  user: User
   type: 'media' | 'files' | 'all'
   forceUnicity?: boolean
 }) => {
@@ -60,7 +57,7 @@ const importFile = async ({
 
   if (type !== 'all' && type !== 'media') return
 
-  let metadata = getMetadata(userId, filePath)
+  let metadata = getMetadata(user, filePath)
 
   const parentFolder = filePath.replace(IMPORT_PATH, '').split('/').slice(-2)[0]
   const tags =
@@ -73,7 +70,7 @@ const importFile = async ({
       const error = err as PrismaClientKnownRequestError
 
       if (error && error.code === 'P2002' && forceUnicity) {
-        metadata = getMetadata(userId, filePath, 1)
+        metadata = getMetadata(user, filePath, 1)
 
         await createMedia(metadata, tags)
       } else {
@@ -118,7 +115,7 @@ const run = async () => {
     try {
       await importFile({
         filePath,
-        userId: user.id,
+        user,
         type: 'media',
         forceUnicity: true,
       })
@@ -128,10 +125,18 @@ const run = async () => {
       failCount += 1
     }
 
-    console.log(
-      `🏁 Import done with: ${successCount} success ✅, and ${failCount} fail ❌`,
+    process.stdout.clearLine(0)
+    process.stdout.cursorTo(0)
+    process.stdout.write(
+      `Progress: ${Math.round(
+        ((successCount + failCount) * 100) / files.length,
+      )}% (${successCount + failCount} / ${files.length})`,
     )
   }
+
+  console.log(
+    `\n🏁 Import done with: ${successCount} success ✅, and ${failCount} fail ❌`,
+  )
 }
 
 export default run

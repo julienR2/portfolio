@@ -18,6 +18,6 @@ router.use(cors())
 router.use('/auth', auth)
 router.use('/users', isAuthenticated, users)
 router.use('/scripts', isAuthenticated, scripts)
-router.use('/storage', isAuthenticated, storage)
+router.use('/storage', storage)
 
 export default router
