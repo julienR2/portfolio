@@ -8,7 +8,7 @@
     "dev": "yarn prisma:dev && nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"yarn ts-node ./src/index.ts\"",
     "prisma:build": "export $(grep -v '^#' .env | xargs); export $(grep -v '^#' .env.prod | xargs); prisma migrate deploy",
     "build": "yarn prisma:build && NODE_ENV=production tsc",
-    "start": "PORT=8000 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'",
+    "start": "PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'",
     "service:start": "sudo systemctl start server.service",
     "service:restart": "sudo systemctl restart server.service",
     "service:logs": "sudo journalctl -b -u server.service -f",
