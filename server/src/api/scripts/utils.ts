@@ -1,5 +1,4 @@
 import { SCRIPTS } from '.'
-import { Script } from './types'
 
 export const runScript = async (scriptId: string) => {
   const script = SCRIPTS[scriptId]

@@ -66,6 +66,7 @@ export const getTransactions = async () => {
     async function getAccountTransactions(
       accountId: number,
       params = 'limit=200',
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
     ): Promise<any> {
       const { pagination, resources } = await bankinApi(
         `accounts/${accountId}/transactions?${params}`,
@@ -93,7 +94,7 @@ export const getTransactions = async () => {
       balance,
     })) as DatabaseRow<'Accounts'>[]
 
-    let transactions: DatabaseRow<'Transactions'>[] = []
+    const transactions: DatabaseRow<'Transactions'>[] = []
 
     for (const item of accounts) {
       const rawTransactions = (await getAccountTransactions(item.id)) as (Pick<

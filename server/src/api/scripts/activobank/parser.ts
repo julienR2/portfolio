@@ -28,7 +28,7 @@ export const parseTransactions = async () => {
 
   const filePath = path.join(ACTIVOBANK_DATA_PATH, files[0])
 
-  let lastBalance: number = 0
+  let lastBalance = 0
 
   const extract = XLSX.readFile(filePath)
 

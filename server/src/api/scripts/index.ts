@@ -1,9 +1,9 @@
 import activobank from './activobank'
 import bankin from './bankin'
-import mediaImport from './mediaImport'
+import fileImport from './import'
 
 export const SCRIPTS = {
   [activobank.id]: activobank,
   [bankin.id]: bankin,
-  [mediaImport.id]: mediaImport,
+  [fileImport.id]: fileImport,
 }

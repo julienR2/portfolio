@@ -64,7 +64,7 @@ router.get('/', (req, res) => {
   res.json({ message: 'yoo storage' })
 })
 
-router.post('/upload', upload.single('media'), function (req, res, next) {
+router.post('/upload', upload.single('media'), function (req) {
   console.log('file', req.file)
   console.log('body', req.body)
 })
