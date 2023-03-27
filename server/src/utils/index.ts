@@ -1,6 +1,5 @@
 import path from 'path'
 import { Request } from 'express'
-import crypto from 'crypto'
 
 export const generateStringId = (str: string, seed = 0) => {
   let h1 = 0xdeadbeef ^ seed,
@@ -22,9 +21,10 @@ export const generateStringId = (str: string, seed = 0) => {
 }
 
 export const generateNumberId = (str: string) => {
-  var hash = 0,
-    i = 0,
-    len = str.length
+  let hash = 0,
+    i = 0
+  const len = str.length
+
   while (i < len) {
     hash = ((hash << 5) - hash + str.charCodeAt(i++)) << 0
   }
@@ -39,6 +39,3 @@ export const urlJoin = (...fragments: string[]) =>
 
 export const getExtension = (filePath: string) =>
   path.parse(filePath).ext.slice(1).toLowerCase()
-
-export const hashToken = (token: string) =>
-  crypto.createHash('sha512').update(token).digest('hex')

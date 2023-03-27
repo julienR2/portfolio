@@ -1,9 +1,9 @@
 import path from 'path'
 import { spawnSync } from 'child_process'
 import fs from 'fs'
-import { Media } from '@prisma/client'
 
 import { getExtension } from '..'
+import { DatabaseInsert } from '../../../../types/utils'
 
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms
@@ -21,7 +21,7 @@ const convertDMStoDD = (dms: string) => {
 
 export const getExifData = (
   filePath: string,
-): Omit<Media, 'id' | 'ownerId'> => {
+): Omit<DatabaseInsert<'Media'>, 'id' | 'ownerId'> => {
   const { error, output } = spawnSync(
     path.join(__dirname, './lib/exiftool'),
     ['-j', filePath],

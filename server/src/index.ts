@@ -1,12 +1,11 @@
-require('dotenv').config()
-if (process.env.NODE_ENV === 'production') {
-  require('dotenv').config({ path: 'prod.env' })
-}
-
+import dotenv from 'dotenv'
 import express from 'express'
 
+dotenv.config()
+
+import { errorHandler } from './middlewares/errorHandler'
+import { notFound } from './middlewares/notFound'
 import api from './api'
-import { errorHandler, notFound } from './middlewares'
 
 const app = express()
 const port = process.env.PORT || 5000

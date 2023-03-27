@@ -1,10 +1,14 @@
-import { Request } from 'express'
 import fs from 'fs'
 import path from 'path'
 
-import { File } from '../../../../types'
-
 import { FILES_PATH } from '../../constants'
+
+export type File = {
+  id: string
+  name: string
+  path: string
+  isDirectory?: boolean
+}
 
 export const listDirectory = (
   filePath: string,
