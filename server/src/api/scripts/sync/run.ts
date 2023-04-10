@@ -3,7 +3,7 @@ import fs from 'fs'
 import glob from 'glob'
 import path from 'path'
 
-import { DatabaseInsert } from '../../../../../types/utils'
+import { DatabaseInsert, DatabaseUpdate } from '../../../../../types/utils'
 
 import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
 import { generateStringId, getExtension } from '../../../utils'
@@ -15,59 +15,21 @@ const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']
 const IGNORE_LIST = ['DS_Store', '.*']
 const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
 
-const getMetadata = (user: User, filePath: string): DatabaseInsert<'Media'> => {
-  const metadata = getExifData(filePath)
 
-  const [year, month, day] = metadata.creationTime.split('T')[0].split('-')
-
-  const id = generateStringId(
-    metadata.filename +
-      metadata.creationTime +
-      metadata.latitude +
-      metadata.longitude +
-      metadata.path,
-  )
-  const newName = `${year}${month}${day}_${id}`
-  const destPath = path.join(MEDIA_PATH, user.email ?? '', year, month)
-  const destFile = path.join(destPath, `${newName}.${metadata.extension}`)
-
-  return {
-    ...metadata,
-    id,
-    filename: newName,
-    path: destFile,
-    owner: user.id,
-  }
-}
-
-const importFile = async ({
+const syncMedia = async ({
   filePath,
   user,
-  type,
 }: {
   filePath: string
   user: User
-  type: 'media' | 'files' | 'all'
 }) => {
-  const extension = getExtension(filePath)
-
-  if (IGNORE_LIST.includes(extension)) return
-
-  const isImage = IMAGES_EXTENSIONS.includes(extension)
-  const isVideo = VIDEOS_EXTENSIONS.includes(extension)
-
-  if (!isImage && !isVideo && (type === 'all' || type === 'files')) {
-    return
-  }
-
-  if (type !== 'all' && type !== 'media') return
-
-  const metadata = getMetadata(user, filePath)
+  const metadata = getExifData(filePath)
 
   try {
     await supabaseService
       .from('Media')
-      .insert<DatabaseInsert<'Media'>>(metadata)
+      .upsert(metadata, {onConflict: 'path'})
+      .select()
 
     const destFolder = metadata.path.split('/').slice(0, -1).join('/')
 
@@ -92,16 +54,15 @@ const run = async () => {
   } = await supabaseService.auth.admin.listUsers()
 
   const files = glob
-    .sync(IMPORT_PATH + '/**/*')
-    .filter((file) => !fs.lstatSync(file).isDirectory())
+    .sync(MEDIA_PATH + '/**/*.*')
 
-  console.log(`⚙️ Importing ${files.length} file${files.length ? 's' : ''}`)
+  console.log(`⚙️ Syncing ${files.length} file${files.length ? 's' : ''}`)
 
   let successCount = 0
   let failCount = 0
 
   for (const filePath of files) {
-    const rootFolder = filePath.replace(IMPORT_PATH, '').split('/')[1]
+    const rootFolder = filePath.split('/').slice(-2, -1)
     const userEmail = rootFolder.includes('@') ? rootFolder : DEFAULT_USER_EMAIL
 
     const user = users.find(({ email }) => email === userEmail)
@@ -109,7 +70,7 @@ const run = async () => {
     if (!user) return
 
     try {
-      await importFile({ filePath, user, type: 'media' })
+      await syncMedia({ filePath, user })
 
       successCount += 1
     } catch (error) {

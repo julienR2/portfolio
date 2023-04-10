@@ -10,7 +10,7 @@
     "build": "yarn lint && NODE_ENV=production tsc",
     "generate:types": "docker exec supabase-meta node /usr/src/app/dist/server/app.js gen types typescript --include-schemas public > ../types/supabase.ts",
     "start:server": "yarn build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'",
-    "start:supabase": "cd supabase && docker compose -d",
+    "start:supabase": "cd supabase && docker compose up -d",
     "start": "yarn start:supabase && yarn start:server",
     "service:start": "sudo systemctl start server.service",
     "service:restart": "sudo systemctl restart server.service",
