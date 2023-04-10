@@ -46,6 +46,7 @@ export interface Database {
       Media: {
         Row: {
           creationTime: string
+          description: string | null
           extension: string | null
           filename: string
           id: string
@@ -53,21 +54,21 @@ export interface Database {
           longitude: number | null
           owner: string | null
           path: string
-          tag: string | null
         }
         Insert: {
           creationTime: string
+          description?: string | null
           extension?: string | null
           filename: string
-          id: string
+          id?: string
           latitude?: number | null
           longitude?: number | null
           owner?: string | null
           path: string
-          tag?: string | null
         }
         Update: {
           creationTime?: string
+          description?: string | null
           extension?: string | null
           filename?: string
           id?: string
@@ -75,18 +76,6 @@ export interface Database {
           longitude?: number | null
           owner?: string | null
           path?: string
-          tag?: string | null
-        }
-      }
-      Tags: {
-        Row: {
-          name: string
-        }
-        Insert: {
-          name: string
-        }
-        Update: {
-          name?: string
         }
       }
       Transactions: {

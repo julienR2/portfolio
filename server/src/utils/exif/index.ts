@@ -51,7 +51,7 @@ export const getExifData = (
       ? convertDMStoDD(metadata.GPSLongitude)
       : null
 
-    const parsedDateTimeOriginal = metadata.DateTimeOriginal?.replace(
+    const parsedDateTimeOriginal = (metadata.DateTimeOriginal || metadata.CreateDate || metadata.FileModifyDate)?.replace(
       /([0-9]+?):([0-9]+?):([0-9]+?) (.*)/,
       '$1-$2-$3 $4',
     )
@@ -67,6 +67,7 @@ export const getExifData = (
       latitude,
       longitude,
       path: filePath,
+      description: metadata.Description,
     }
   } catch (error) {
     return defaultMetada
