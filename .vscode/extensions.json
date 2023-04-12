@@ -1,0 +1,11 @@
+{
+  "recommendations": [
+    "formulahendry.code-runner",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "yy0931.save-as-root",
+    "mhutchie.git-graph",
+    "eamodio.gitlens",
+    "ziyasal.vscode-open-in-github"
+  ]
+}

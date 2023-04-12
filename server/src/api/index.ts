@@ -3,8 +3,8 @@ import cors from 'cors'
 
 import { supabaseAuth } from '../middlewares/supabaseAuth'
 
-import scripts from './scripts/router'
 import storage from './storage/router'
+import scripts from './scripts/router'
 
 const router = express.Router()
 

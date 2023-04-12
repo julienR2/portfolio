@@ -1,6 +1,7 @@
-import express, { Request, Response } from 'express'
 import path from 'path'
 import fs from 'fs'
+
+import express, { Request, Response } from 'express'
 import mime from 'mime-types'
 import multer from 'multer'
 
@@ -11,7 +12,7 @@ import { listDirectory } from './fileSystem'
 
 const storage = multer.diskStorage({
   destination: UPLOADS_PATH,
-  filename: function (req, file, cb) {
+  filename(req, file, cb) {
     const uniqueSuffix = Date.now() + '-' + Math.round(Math.random() * 1e9)
     cb(null, file.fieldname + '-' + uniqueSuffix)
   },

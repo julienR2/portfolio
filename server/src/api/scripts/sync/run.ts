@@ -1,20 +1,19 @@
-import { User } from '@supabase/supabase-js'
-import fs from 'fs'
-import glob from 'glob'
 import path from 'path'
+import fs from 'fs'
 
-import { DatabaseInsert, DatabaseUpdate } from '../../../../../types/utils'
+import glob from 'glob'
+import { User } from '@supabase/supabase-js'
 
-import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
-import { generateStringId, getExtension } from '../../../utils'
-import { getExifData } from '../../../utils/exif'
 import { supabaseService } from '../../../utils/supabase'
+import { getExifData } from '../../../utils/exif'
+import { generateStringId, getExtension } from '../../../utils'
+import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
+import { DatabaseInsert, DatabaseUpdate } from '../../../../../types/utils'
 
 const IMAGES_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'nef']
 const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']
 const IGNORE_LIST = ['DS_Store', '.*']
 const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
-
 
 const syncMedia = async ({
   filePath,
@@ -28,7 +27,7 @@ const syncMedia = async ({
   try {
     await supabaseService
       .from('Media')
-      .upsert(metadata, {onConflict: 'path'})
+      .upsert(metadata, { onConflict: 'path' })
       .select()
 
     const destFolder = metadata.path.split('/').slice(0, -1).join('/')
@@ -53,8 +52,7 @@ const run = async () => {
     data: { users },
   } = await supabaseService.auth.admin.listUsers()
 
-  const files = glob
-    .sync(MEDIA_PATH + '/**/*.*')
+  const files = glob.sync(MEDIA_PATH + '/**/*.*')
 
   console.log(`⚙️ Syncing ${files.length} file${files.length ? 's' : ''}`)
 

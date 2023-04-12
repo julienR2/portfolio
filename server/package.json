@@ -1,5 +1,5 @@
 {
-  "name": "nowmad-server",
+  "name": "server",
   "version": "1.0.0",
   "private": true,
   "scripts": {
@@ -8,13 +8,7 @@
     "ts-node": "TS_NODE_TRANSPILE_ONLY=true ts-node",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"yarn ts-node ./src/index.ts\"",
     "build": "yarn lint && NODE_ENV=production tsc",
-    "generate:types": "docker exec supabase-meta node /usr/src/app/dist/server/app.js gen types typescript --include-schemas public > ../types/supabase.ts",
-    "start:server": "yarn build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'",
-    "start:supabase": "cd supabase && docker compose up -d",
-    "start": "yarn start:supabase && yarn start:server",
-    "service:start": "sudo systemctl start server.service",
-    "service:restart": "sudo systemctl restart server.service",
-    "service:logs": "sudo journalctl -b -u server.service -f"
+    "start": "yarn build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.12.1",
@@ -40,9 +34,6 @@
     "@types/multer": "^1.4.7",
     "@types/node": "^18.11.9",
     "@types/uuid": "^9.0.0",
-    "@typescript-eslint/eslint-plugin": "^5.57.0",
-    "@typescript-eslint/parser": "^5.57.0",
-    "eslint": "^8.36.0",
     "nodemon": "^2.0.20",
     "ts-node": "^10.9.1",
     "typescript": "^4.6.3"

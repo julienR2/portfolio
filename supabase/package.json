@@ -1,0 +1,9 @@
+{
+  "name": "supabase",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "generate:types": "docker exec supabase-meta node /usr/src/app/dist/server/app.js gen types typescript --include-schemas public > ../types/supabase.ts",
+    "start": "docker compose up -d"
+  }
+}

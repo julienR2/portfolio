@@ -2,7 +2,6 @@ import { createClient } from '@supabase/supabase-js'
 import { NextFunction, Request, Response } from 'express'
 
 import { Database } from '../../../types/supabase'
-
 import { IS_DEV } from '../constants'
 
 export const supabaseAuth = async (

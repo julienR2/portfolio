@@ -1,9 +1,9 @@
 import path from 'path'
-import { spawnSync } from 'child_process'
 import fs from 'fs'
+import { spawnSync } from 'child_process'
 
-import { getExtension } from '..'
 import { DatabaseInsert } from '../../../../types/utils'
+import { getExtension } from '..'
 
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms
@@ -12,7 +12,7 @@ const convertDMStoDD = (dms: string) => {
 
   let dd = Number(degrees) + Number(minutes) / 60 + Number(seconds) / (60 * 60)
 
-  if (direction == 'S' || direction == 'W') {
+  if (direction === 'S' || direction === 'W') {
     dd = dd * -1
   }
 
@@ -51,10 +51,11 @@ export const getExifData = (
       ? convertDMStoDD(metadata.GPSLongitude)
       : null
 
-    const parsedDateTimeOriginal = (metadata.DateTimeOriginal || metadata.CreateDate || metadata.FileModifyDate)?.replace(
-      /([0-9]+?):([0-9]+?):([0-9]+?) (.*)/,
-      '$1-$2-$3 $4',
-    )
+    const parsedDateTimeOriginal = (
+      metadata.DateTimeOriginal ||
+      metadata.CreateDate ||
+      metadata.FileModifyDate
+    )?.replace(/([0-9]+?):([0-9]+?):([0-9]+?) (.*)/, '$1-$2-$3 $4')
 
     const creationTime = new Date(
       parsedDateTimeOriginal || birthtime,
