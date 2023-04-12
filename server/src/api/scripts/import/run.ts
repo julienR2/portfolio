@@ -1,14 +1,14 @@
-import { User } from '@supabase/supabase-js'
-import fs from 'fs'
-import glob from 'glob'
 import path from 'path'
+import fs from 'fs'
+
+import glob from 'glob'
+import { User } from '@supabase/supabase-js'
 
 import { DatabaseInsert } from '../../../../../types/utils'
-
-import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
-import { generateStringId, getExtension } from '../../../utils'
-import { getExifData } from '../../../utils/exif'
 import { supabaseService } from '../../../utils/supabase'
+import { getExifData } from '../../../utils/exif'
+import { generateStringId, getExtension } from '../../../utils'
+import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
 
 const IMAGES_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'nef']
 const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']

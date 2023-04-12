@@ -1,11 +1,11 @@
 import dotenv from 'dotenv'
 import express from 'express'
 
-dotenv.config()
-
+import api from './api'
 import { errorHandler } from './middlewares/errorHandler'
 import { notFound } from './middlewares/notFound'
-import api from './api'
+
+dotenv.config()
 
 const app = express()
 const port = process.env.PORT || 5000

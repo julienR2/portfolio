@@ -1,4 +1,5 @@
 import path from 'path'
+
 import { Request } from 'express'
 
 export const generateStringId = (str: string, seed = 0) => {

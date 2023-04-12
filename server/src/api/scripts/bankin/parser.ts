@@ -1,5 +1,4 @@
 import { DatabaseRow } from '../../../../../types/utils'
-
 import { supabaseService } from '../../../utils/supabase'
 
 type ParseTransactionsParams = {

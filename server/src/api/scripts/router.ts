@@ -3,6 +3,7 @@ import express, { Request, Response } from 'express'
 import { getRequestUrl, urlJoin } from '../../utils'
 
 import { runScript } from './utils'
+
 import { SCRIPTS } from '.'
 
 const router = express.Router()
