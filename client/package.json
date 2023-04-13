@@ -6,7 +6,7 @@
     "start": "expo start --dev-client",
     "android": "expo run:android",
     "web": " GENERATE_SOURCEMAP=false expo start --web",
-    "configure:splash": "yarn run configure-splash-screen --platform 'android' --image-path assets/icon.png --background-color '#000000' --dark-mode-background-color '#1C1B1F' --status-bar-style 'dark-content' --dark-mode-status-bar-style 'light-content' --status-bar-background-color '#000000' --dark-mode-status-bar-background-color '#1C1B1F'",
+    "configure:splash": "npx configure-splash-screen --platform 'android' --image-path assets/icon.png --background-color '#000000' --dark-mode-background-color '#1C1B1F' --status-bar-style 'dark-content' --dark-mode-status-bar-style 'light-content' --status-bar-background-color '#000000' --dark-mode-status-bar-background-color '#1C1B1F'",
     "configure:icon": "npx icon-set-creator create assets/icon.png -A"
   },
   "dependencies": {

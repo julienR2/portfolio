@@ -1,7 +1,10 @@
 {
   "extends": ["universe/native", "plugin:react-hooks/recommended"],
   "rules": {
-    "@typescript-eslint/no-unused-vars": ["error", { "caughtErrors": "none" }],
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "caughtErrors": "none", "ignoreRestSiblings": true }
+    ],
     "import/order": [
       "error",
       {
