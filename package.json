@@ -3,8 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "cd supabase && yarn start && cd .. && cd server && yarn start",
+    "start": "npm install && cd supabase && npm start && cd .. && cd server && npm install && npm start",
+    "service:setup": "sudo cp nowmad.service /lib/systemd/system",
     "service:start": "sudo systemctl start nowmad.service",
+    "service:stop": "sudo systemctl stop nowmad.service",
     "service:restart": "sudo systemctl restart nowmad.service",
     "service:logs": "sudo journalctl -b -u nowmad.service -f"
   },
