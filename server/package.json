@@ -8,7 +8,7 @@
     "ts-node": "TS_NODE_TRANSPILE_ONLY=true ts-node",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"npm run ts-node ./src/index.ts\"",
     "build": "npm run lint && NODE_ENV=production tsc",
-    "start": "npm run build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/index.js || touch ./dist/index.js'"
+    "start": "npm run build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/server/src/index.js || touch ./dist/server/src/index.js'"
   },
   "dependencies": {
     "@supabase/supabase-js": "^2.12.1",
