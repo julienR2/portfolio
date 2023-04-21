@@ -5,6 +5,9 @@ import { spawnSync } from 'child_process'
 import { DatabaseInsert } from '../../../../types/utils'
 import { getExtension } from '..'
 
+const valideDate = (date?: string) =>
+  date?.startsWith('0000') ? undefined : date
+
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms
     .replace('deg', '°')
@@ -21,19 +24,17 @@ const convertDMStoDD = (dms: string) => {
 
 export const getExifData = (
   filePath: string,
-): Omit<DatabaseInsert<'Media'>, 'id' | 'ownerId'> => {
+): Omit<DatabaseInsert<'Media'>, 'id' | 'owner'> => {
   const { error, output } = spawnSync(
     path.join(__dirname, './lib/exiftool'),
     ['-j', filePath],
     { stdio: 'pipe', encoding: 'utf-8' },
   )
 
-  const parsedFile = path.parse(filePath)
   const birthtime = fs.statSync(filePath).birthtime.toISOString()
 
   const defaultMetada = {
     creationTime: birthtime,
-    filename: parsedFile.name,
     extension: getExtension(filePath),
     path: filePath,
     longitude: null,
@@ -52,18 +53,17 @@ export const getExifData = (
       : null
 
     const parsedDateTimeOriginal = (
-      metadata.DateTimeOriginal ||
-      metadata.CreateDate ||
+      valideDate(metadata.DateTimeOriginal) ||
+      valideDate(metadata.CreateDate) ||
       metadata.FileModifyDate
     )?.replace(/([0-9]+?):([0-9]+?):([0-9]+?) (.*)/, '$1-$2-$3 $4')
 
     const creationTime = new Date(
-      parsedDateTimeOriginal || birthtime,
+      valideDate(parsedDateTimeOriginal) || birthtime,
     ).toISOString()
 
     return {
       creationTime,
-      filename: parsedFile.name,
       extension: metadata.FileTypeExtension as string,
       latitude,
       longitude,

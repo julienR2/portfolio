@@ -1,92 +1,93 @@
-// import path from 'path'
-// import fs from 'fs'
+import fs from 'fs'
 
-// import glob from 'glob'
-// import { User } from '@supabase/supabase-js'
+import glob from 'glob'
+import { User } from '@supabase/supabase-js'
 
-// import { supabaseService } from '../../../utils/supabase'
-// import { getExifData } from '../../../utils/exif'
-// import { generateStringId, getExtension } from '../../../utils'
-// import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
-// import { DatabaseInsert, DatabaseUpdate } from '../../../../../types/utils'
+import { supabaseService } from '../../../utils/supabase'
+import { getExifData } from '../../../utils/exif'
+import { MEDIA_PATH } from '../../../constants'
 
-// const IMAGES_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'nef']
-// const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']
-// const IGNORE_LIST = ['DS_Store', '.*']
-// const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
+const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
 
-// const syncMedia = async ({
-//   filePath,
-//   user,
-// }: {
-//   filePath: string
-//   user: User
-// }) => {
-//   const metadata = getExifData(filePath)
+const syncMedia = async ({
+  filePath,
+  user,
+}: {
+  filePath: string
+  user: User
+}) => {
+  const metadata = getExifData(filePath)
+  const media = {
+    ...metadata,
+    owner: user.id,
+    path: metadata.path
+      .replace(MEDIA_PATH, '')
+      .replace(user.email || '', '')
+      .replace(/^\//, ''),
+  }
 
-//   try {
-//     await supabaseService
-//       .from('Media')
-//       .upsert(metadata, { onConflict: 'path' })
-//       .select()
+  try {
+    const { error } = await supabaseService
+      .from('Media')
+      .upsert(media, { onConflict: 'path' })
+      .select()
 
-//     const destFolder = metadata.path.split('/').slice(0, -1).join('/')
+    if (error) {
+      throw error
+    }
+  } catch (error) {
+    console.error(`❌ Error proccessing ${filePath}`, metadata, error)
 
-//     try {
-//       fs.mkdirSync(destFolder, { recursive: true })
-//       fs.renameSync(filePath, metadata.path)
-//     } catch (error) {
-//       await supabaseService.from('Media').delete().eq('id', metadata.id)
+    throw error
+  }
+}
 
-//       throw error
-//     }
-//   } catch (error) {
-//     console.error(`❌ Error proccessing ${filePath}`, metadata, error)
+const run = async () => {
+  const timeStart = Date.now()
 
-//     throw error
-//   }
-// }
+  const {
+    data: { users },
+  } = await supabaseService.auth.admin.listUsers()
 
-// const run = async () => {
-//   const {
-//     data: { users },
-//   } = await supabaseService.auth.admin.listUsers()
+  const files = glob
+    .sync(MEDIA_PATH + '/**/*.*')
+    .filter((file) => !fs.lstatSync(file).isDirectory())
 
-//   const files = glob.sync(MEDIA_PATH + '/**/*.*')
+  console.log(`⚙️ Syncing ${files.length} file${files.length ? 's' : ''}`)
 
-//   console.log(`⚙️ Syncing ${files.length} file${files.length ? 's' : ''}`)
+  let successCount = 0
+  let failCount = 0
 
-//   let successCount = 0
-//   let failCount = 0
+  for (const filePath of files) {
+    const rootFolder = filePath.replace(MEDIA_PATH, '').split('/')[1]
+    const userEmail = rootFolder.includes('@') ? rootFolder : DEFAULT_USER_EMAIL
 
-//   for (const filePath of files) {
-//     const rootFolder = filePath.split('/').slice(-2, -1)
-//     const userEmail = rootFolder.includes('@') ? rootFolder : DEFAULT_USER_EMAIL
+    const user = users.find(({ email }) => email === userEmail)
 
-//     const user = users.find(({ email }) => email === userEmail)
+    if (!user) return
 
-//     if (!user) return
+    try {
+      await syncMedia({ filePath, user })
 
-//     try {
-//       await syncMedia({ filePath, user })
+      successCount += 1
+    } catch (error) {
+      failCount += 1
+    }
 
-//       successCount += 1
-//     } catch (error) {
-//       failCount += 1
-//     }
+    process.stdout.clearLine(0)
+    process.stdout.cursorTo(0)
+    process.stdout.write(
+      `Progress: ${Math.round(
+        ((successCount + failCount) * 100) / files.length,
+      )}% (${successCount + failCount} / ${files.length})`,
+    )
+  }
 
-//     process.stdout.clearLine(0)
-//     process.stdout.cursorTo(0)
-//     process.stdout.write(
-//       `Progress: ${Math.round(
-//         ((successCount + failCount) * 100) / files.length,
-//       )}% (${successCount + failCount} / ${files.length})`,
-//     )
-//   }
+  console.log(
+    `\n🏁 Import done in ${Math.round(
+      (Date.now() - timeStart) / 1000,
+    )}s, with: ${successCount} success ✅, and ${failCount} fail ❌`,
+  )
+}
 
-//   console.log(
-//     `\n🏁 Import done with: ${successCount} success ✅, and ${failCount} fail ❌`,
-//   )
-// }
-
-// export default run
+export default run

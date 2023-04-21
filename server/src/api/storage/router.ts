@@ -22,6 +22,10 @@ const upload = multer({ storage })
 
 const router = express.Router()
 
+router.get('/', (req, res) => {
+  res.json({ message: 'yoo storage' })
+})
+
 router.get('/files', async (req: Request, res: Response) => {
   const filePath = path.join(FILES_PATH, decodeURI(req.path))
 
@@ -59,10 +63,6 @@ router.get('/files', async (req: Request, res: Response) => {
 
   const stream = fs.createReadStream(filePath, { start, end })
   stream.pipe(res)
-})
-
-router.get('/', (req, res) => {
-  res.json({ message: 'yoo storage' })
 })
 
 router.post('/upload', upload.single('media'), function (req) {
