@@ -3,7 +3,7 @@ import { createRoot } from 'react-dom/client'
 import { createElement } from 'react'
 import { Platform } from 'react-native'
 
-import Index from './client'
+import Index from './src'
 
 // @see https://github.com/expo/expo/issues/18485
 if (Platform.OS === 'web') {

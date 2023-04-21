@@ -1,4 +1,4 @@
-import { format, isThisWeek, isToday, isYesterday } from 'date-fns'
+import { format, isThisWeek, isThisYear, isToday, isYesterday } from 'date-fns'
 import React from 'react'
 import { StyleSheet, View } from 'react-native'
 import { Text } from 'react-native-paper'
@@ -23,7 +23,11 @@ const Header = ({ date }: HeaderProps) => {
       return format(dateObject, 'iiii')
     }
 
-    return format(dateObject, 'iii, MMM dd')
+    if (isThisYear(dateObject)) {
+      return format(dateObject, 'iii, MMM dd')
+    }
+
+    return format(dateObject, 'iii, MMM dd, yyyy')
   }, [date])
 
   return (

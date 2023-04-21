@@ -13,14 +13,12 @@ export const useLocalMedia = () => {
     if (isWeb) return
 
     async function fetchPhotos() {
-      console.log('permissionResponse', permissionResponse)
       if (!permissionResponse?.granted && permissionResponse?.canAskAgain) {
         await requestPermission()
         return
       }
 
       const albums = await MediaLibrary.getAlbumsAsync()
-      console.log('albumbs', albums)
       const cameraAlbum = albums.find(({ title }) => title === 'Camera')
 
       const { assets } = await MediaLibrary.getAssetsAsync({
@@ -29,7 +27,6 @@ export const useLocalMedia = () => {
         mediaType: ['photo', 'video'],
         sortBy: [['creationTime', false]],
       })
-      console.log('yoo', assets)
 
       setMedia(assets)
 
