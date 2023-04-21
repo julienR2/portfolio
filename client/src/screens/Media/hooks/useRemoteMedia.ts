@@ -1,35 +1,32 @@
-// import React from 'react'
+import React from 'react'
 
-// import * as MediaLibrary from 'expo-media-library'
-// import { Platform } from 'react-native'
+import { supabase } from '../../../libs/supabase'
+import { DatabaseRow } from '../../../../../types/utils'
 
-// export const useLocalMedia = ({}) => {
-//   const [permissionResponse, requestPermission] = MediaLibrary.usePermissions()
-//   const [cameraAssets, setCameraAssets] =
-//     React.useState<MediaLibrary.PagedInfo<MediaLibrary.Asset>>()
+export const useRemoteMedia = () => {
+  const [media, setMedia] = React.useState<DatabaseRow<'Media'>[]>([])
+  const [loading, setLoading] = React.useState(false)
 
-//   React.useEffect(() => {
-//     if (Platform.OS === 'web') return
+  React.useEffect(() => {
+    async function fetchRemotePhotos() {
+      setLoading(true)
 
-//     async function fetchPhotos() {
-//       if (!permissionResponse?.granted && permissionResponse?.canAskAgain) {
-//         await requestPermission()
-//         return
-//       }
+      try {
+        const { data } = await supabase
+          .from('Media')
+          .select('*', { count: 'exact' })
+          .order('creationTime', { ascending: false })
+          .range(0, 10)
 
-//       const albums = await MediaLibrary.getAlbumsAsync()
-//       const cameraAlbum = albums.find(({ title }) => title === 'Camera')
+        console.log('data', data)
+        setMedia(data || [])
+      } catch (error) {}
 
-//       const assets = await MediaLibrary.getAssetsAsync({
-//         album: cameraAlbum,
-//         first: cameraAlbum?.assetCount,
-//       })
+      setLoading(false)
+    }
 
-//       setCameraAssets(assets)
-//     }
+    fetchRemotePhotos()
+  }, [])
 
-//     fetchPhotos()
-//   }, [permissionResponse])
-
-//   return cameraAssets
-// }
+  return { media, loading }
+}

@@ -4,13 +4,18 @@ import React from 'react'
 import Image from '../../../components/Image'
 import { useDimensions } from '../../../hooks/useDimensions'
 import { NB_COLUMNS, MEDIA_MARGIN } from '../constants'
+import { DatabaseRow } from '../../../../../types/utils'
+import { getUriFromPath } from '../utils'
+import { supabase } from '../../../libs/supabase'
+import { useStoreItemValue } from '../../../hooks/useStore'
 
 type MediaProps = {
-  asset: Asset
+  item: Asset | DatabaseRow<'Media'>
   index: number
 }
 
-const Media = ({ asset, index }: MediaProps) => {
+const Media = ({ item, index }: MediaProps) => {
+  const accessToken = useStoreItemValue('accessToken')
   const { window } = useDimensions()
 
   const size = React.useMemo(
@@ -27,14 +32,27 @@ const Media = ({ asset, index }: MediaProps) => {
     [index, size],
   )
 
+  const uri = React.useMemo(
+    () =>
+      (__DEV__
+        ? item.uri.replace('nowmad.io', 'dev.nowmad.io')
+        : item.uri
+      ).toLocaleLowerCase(),
+    [item.uri],
+  )
+
   return (
     <Image
       style={style}
       source={{
-        uri: asset.uri,
+        uri,
         priority: Image.priority.normal,
+        headers: { Authorization: `Bearer ${accessToken}` },
       }}
       resizeMode={Image.resizeMode.cover}
+      onError={() => {
+        console.log('error ?')
+      }}
     />
   )
 }

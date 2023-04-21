@@ -7,7 +7,7 @@ import { supabase } from '../libs/supabase'
 
 const Login = () => {
   const [email, setEmail] = React.useState('julien.rougeron@gmail.com')
-  const [password, setPassword] = React.useState('Nowmad2106')
+  const [password, setPassword] = React.useState('KITnow23*')
   const [isSecure, setIsSecure] = React.useState(true)
   const [isLoading, setIsLoading] = React.useState(false)
   const [, setAccessToken] = useStoreItem('accessToken')
