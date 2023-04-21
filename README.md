@@ -21,6 +21,7 @@ Few helper scripts (start/install/restart), are set in the `package.json` at the
 ### Nginx
 
 We need to handle the following:
+
 - `nowmad.io` serving the server (running on 5000)
 - `studio.nowmad.io` displaying Supabase studio to access the DB (running on 3000)
 - `supabase.nowmad.io` the supabase instance the client connects to (running on 8000)
@@ -29,6 +30,7 @@ We need to handle the following:
 **Certs are handled by Certbox**
 
 So to setup our `/etc/nginx/sites-available/default` Nginx config file, we should do the following (more details on [Certbot website](https://certbot.eff.org/instructions?ws=nginx&os=debianbuster)):
+
 - install nginx `sudo apt install nginx`
 - start nginx `sudo /etc/init.d/nginx start`
 - install snapd `sudo apt install snapd`
@@ -41,6 +43,7 @@ So to setup our `/etc/nginx/sites-available/default` Nginx config file, we shoul
 **Restrict access to studio.nowmad.io**
 
 We restrict the access through the auth feature provided by Nginx. It looks like this:
+
 ```
   ...
   auth_basic "Restricted Content";
@@ -49,6 +52,7 @@ We restrict the access through the auth feature provided by Nginx. It looks like
 ```
 
 `.htpasswd` is filled up the following way:
+
 - user - `sudo sh -c "echo -n 'user:' >> /etc/nginx/.htpasswd"`
 - password - `sudo sh -c "openssl passwd -apr1 >> /etc/nginx/.htpasswd"`
 
@@ -68,22 +72,24 @@ Also since Docker can use quite some space, we actually move it to it's own USB 
 - Check updated groups by running `groups`
 - Stop Docker `service docker stop`
 - Specify new location in Docker Daemon config. In `/etc/docker/daemon.json`:
+
 ```
 {
   "data-root": "/new/location",
   "storage-driver": "overlay2"
 }
 ```
+
 - Copy docker files to new location `rsync -aP /var/lib/docker/ /new/location`
 - Remove old directory `rm -rf /var/lib/docker`
 - Start daemon `service docker start`
 - Testing install `docker run hello-world`
 
-
 ### Supabase
 
 Supabase Docker files are located in [their github](https://github.com/supabase/supabase/tree/master/docker).
 Those are the files located locally in `supabase` from which we adjusted the config and triggered a `docker compose up`
+
 
 ### Pupeteer
 

@@ -1,10 +1,11 @@
 import { createClient } from '@supabase/supabase-js'
 
 import { Database } from '../../../types/supabase'
+import { env } from '../constants'
 
 export const supabaseService = createClient<Database>(
-  process.env.SUPABASE_URL || '',
-  process.env.SUPABASE_SERVICE_KEY || '',
+  env.SUPABASE_URL || '',
+  env.SUPABASE_SERVICE_KEY || '',
 )
 
 declare global {

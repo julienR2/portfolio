@@ -6,12 +6,14 @@
     "typecheck": "tsc",
     "lint": "npx eslint \"src/**/*.{js,jsx,ts,tsx}\"",
     "ts-node": "TS_NODE_TRANSPILE_ONLY=true ts-node",
+    "install:exif": "mkdir -p ./src/utils/exif/lib && curl https://exiftool.org/Image-ExifTool-12.60.tar.gz | tar -xz --directory=./src/utils/exif/lib --strip-components=1",
+    "postinstall": "npm run install:exif",
     "dev": "nodemon --watch \"./src/**\" --ext \"ts,json\" --exec \"npm run ts-node ./src/index.ts\"",
     "build": "npm run lint && NODE_ENV=production tsc",
     "start": "npm run build && PORT=8080 nodemon --watch \"./dist/**\" -x 'node ./dist/server/src/index.js || touch ./dist/server/src/index.js'"
   },
   "dependencies": {
-    "@supabase/supabase-js": "^2.12.1",
+    "@supabase/supabase-js": "^2.20.0",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
