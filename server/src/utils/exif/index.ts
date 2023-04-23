@@ -11,7 +11,7 @@ const valideDate = (date?: string) =>
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms
     .replace('deg', '°')
-    .split(/[^\d\w]+/)
+    .split(/[^\d\w.]+/)
 
   let dd = Number(degrees) + Number(minutes) / 60 + Number(seconds) / (60 * 60)
 
