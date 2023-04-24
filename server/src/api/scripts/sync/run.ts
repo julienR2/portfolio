@@ -7,8 +7,6 @@ import { supabaseService } from '../../../utils/supabase'
 import { getExifData } from '../../../utils/exif'
 import { MEDIA_PATH } from '../../../constants'
 
-const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
-
 const syncMedia = async ({
   filePath,
   user,
@@ -22,7 +20,7 @@ const syncMedia = async ({
     owner: user.id,
     path: metadata.path
       .replace(MEDIA_PATH, '')
-      .replace(user.email || '', '')
+      .replace(user.id || '', '')
       .replace(/^\//, ''),
   }
 
@@ -59,10 +57,9 @@ const run = async () => {
   let failCount = 0
 
   for (const filePath of files) {
-    const rootFolder = filePath.replace(MEDIA_PATH, '').split('/')[1]
-    const userEmail = rootFolder.includes('@') ? rootFolder : DEFAULT_USER_EMAIL
+    const userID = filePath.replace(MEDIA_PATH, '').split('/')[1]
 
-    const user = users.find(({ email }) => email === userEmail)
+    const user = users.find(({ id }) => id === userID)
 
     if (!user) return
 
