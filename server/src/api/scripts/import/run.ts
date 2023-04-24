@@ -12,7 +12,7 @@ import { IMPORT_PATH, MEDIA_PATH } from '../../../constants'
 
 const IMAGES_EXTENSIONS = ['gif', 'jpeg', 'jpg', 'png', 'svg', 'nef']
 const VIDEOS_EXTENSIONS = ['avi', 'mov', 'mp4', 'mkv']
-const IGNORE_LIST = ['DS_Store', '.*']
+const SUPPORTED_MEDIA = [...IMAGES_EXTENSIONS, VIDEOS_EXTENSIONS]
 const DEFAULT_USER_EMAIL = 'julien.rougeron@gmail.com'
 
 const getMetadata = (user: User, filePath: string): DatabaseInsert<'Media'> => {
@@ -43,24 +43,13 @@ const getMetadata = (user: User, filePath: string): DatabaseInsert<'Media'> => {
 const importFile = async ({
   filePath,
   user,
-  type,
 }: {
   filePath: string
   user: User
-  type: 'media' | 'files' | 'all'
 }) => {
   const extension = getExtension(filePath)
 
-  if (IGNORE_LIST.includes(extension)) return
-
-  const isImage = IMAGES_EXTENSIONS.includes(extension)
-  const isVideo = VIDEOS_EXTENSIONS.includes(extension)
-
-  if (!isImage && !isVideo && (type === 'all' || type === 'files')) {
-    return
-  }
-
-  if (type !== 'all' && type !== 'media') return
+  if (!SUPPORTED_MEDIA.includes(extension)) return
 
   const metadata = getMetadata(user, filePath)
 
@@ -109,7 +98,7 @@ const run = async () => {
     if (!user) return
 
     try {
-      await importFile({ filePath, user, type: 'media' })
+      await importFile({ filePath, user })
 
       successCount += 1
     } catch (error) {
