@@ -5,8 +5,11 @@ import { spawnSync } from 'child_process'
 import { DatabaseInsert } from '../../../../types/utils'
 import { getExtension } from '..'
 
+const dateRegex = /([0-9]+?):([0-9]+?):([0-9]+?) (.*)/
+
+// Non valid date can be '       ' or '0000:00:00 00:00:00'
 const valideDate = (date?: string) =>
-  date?.startsWith('0000') ? undefined : date
+  date?.startsWith('0000') || !date?.match(dateRegex) ? undefined : date
 
 const convertDMStoDD = (dms: string) => {
   const [degrees, minutes, seconds, direction] = dms
@@ -55,11 +58,11 @@ export const getExifData = (
     const parsedDateTimeOriginal = (
       valideDate(metadata.DateTimeOriginal) ||
       valideDate(metadata.CreateDate) ||
-      metadata.FileModifyDate
-    )?.replace(/([0-9]+?):([0-9]+?):([0-9]+?) (.*)/, '$1-$2-$3 $4')
+      valideDate(metadata.FileModifyDate)
+    )?.replace(dateRegex, '$1-$2-$3 $4')
 
     const creationTime = new Date(
-      valideDate(parsedDateTimeOriginal) || birthtime,
+      parsedDateTimeOriginal || birthtime,
     ).toISOString()
 
     return {
