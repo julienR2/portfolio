@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "generate:types": "docker exec supabase-meta node /usr/src/app/dist/server/app.js gen types typescript --include-schemas public > ../types/supabase.ts",
+    "generate:types": "docker exec supabase-meta node /usr/src/app/dist/server/app.js gen types typescript --include-schemas public > ../types/supabase_local.ts",
     "start": "docker compose up -d"
   }
 }
