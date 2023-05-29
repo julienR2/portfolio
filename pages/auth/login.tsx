@@ -48,40 +48,40 @@ export default function Login() {
 
   return (
     <Container size={420} my={40}>
-      <Title align='center'>Welcome back!</Title>
-      <Text color='dimmed' size='sm' align='center' mt={5}>
+      <Title align="center">Welcome back!</Title>
+      <Text color="dimmed" size="sm" align="center" mt={5}>
         Do not have an account yet?{' '}
-        <Link href='/auth/register'>
-          <Anchor size='sm' component='button'>
+        <Link href="/auth/register">
+          <Anchor size="sm" component="button">
             Create account
           </Anchor>
         </Link>
       </Text>
 
-      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={onSubmit}>
           <TextInput
-            label='Email'
-            placeholder='you@mantine.dev'
+            label="Email"
+            placeholder="you@mantine.dev"
             required
             value={email}
             onChange={setEmail}
             disabled={loading}
           />
           <PasswordInput
-            label='Password'
-            placeholder='Your password'
+            label="Password"
+            placeholder="Your password"
             required
-            mt='md'
+            mt="md"
             value={password}
             onChange={setPassword}
             disabled={loading}
           />
-          <Button fullWidth mt='xl' type='submit' loading={loading}>
+          <Button fullWidth mt="xl" type="submit" loading={loading}>
             Sign in
           </Button>
         </form>
-        <Anchor component={Link} size='sm' mt='sm' href='/auth/magic-link'>
+        <Anchor component={Link} size="sm" mt="sm" href="/auth/magic-link">
           Forgot password?
         </Anchor>
       </Paper>
