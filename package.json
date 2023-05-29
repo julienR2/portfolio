@@ -5,7 +5,7 @@
   "scripts": {
     "install:exif": "mkdir -p ./utils/exif/lib && curl https://exiftool.org/Image-ExifTool-12.60.tar.gz | tar -xz --directory=./utils/exif/lib --strip-components=1",
     "postinstall": "npm run install:exif",
-    "dev": "next dev -p 5000",
+    "dev": "next dev",
     "build": "next build",
     "start": " cd supabase && npm start && cd .. && npm install && next start -p 8080",
     "generate:types": "export $(grep -v '^#' .env | xargs) && npx supabase gen types typescript --project-id \"$SUPABASE_PROJECT_ID_REMOTE\" > types/supabase_remote.ts",

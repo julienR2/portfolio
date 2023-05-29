@@ -29,7 +29,7 @@ export default function AppLayout(props: AppLAyoutProps) {
   return (
     <Container size="sm">
       <Stack h="100vh">
-        <Group position="apart" py="md">
+        <Group position="apart" py="xl">
           <Title weight={900}>Nowmad</Title>
           <Group>
             <Anchor
@@ -58,14 +58,26 @@ export default function AppLayout(props: AppLAyoutProps) {
         <Group style={{ flex: 1 }} align="flex-start">
           {props.children}
         </Group>
-        <Group position="center" py="sm">
-          <Anchor href="https://mantine.dev/" target="_blank" c="dimmed">
+        <Group position="center" py="lg">
+          <Anchor
+            href="https://github.com/julienr2"
+            target="_blank"
+            color="dimmed"
+            mx="xs">
             Github
           </Anchor>
-          <Anchor href="https://mantine.dev/" target="_blank" color="dimmed">
+          <Anchor
+            href="https://www.linkedin.com/in/julien-rougeron-60044a3b/"
+            target="_blank"
+            color="dimmed"
+            mx="xs">
             LinkedIn
           </Anchor>
-          <Anchor href="https://mantine.dev/" target="_blank" color="dimmed">
+          <Anchor
+            href="https://twitter.com/julien_r2"
+            target="_blank"
+            color="dimmed"
+            mx="xs">
             Twitter
           </Anchor>
         </Group>
@@ -73,44 +85,3 @@ export default function AppLayout(props: AppLAyoutProps) {
     </Container>
   )
 }
-//   <Container p={0} size="sm">
-
-//     <Flex
-//       direction="row"
-//       align="center"
-//       justify="space-between"
-//       >
-//       <Title weight={900}>Nowmad</Title>
-//       <Group>
-//         <Anchor
-//           component={Link}
-//           href="/"
-//           color={router.pathname === '/' ? 'white' : 'dimmed'}
-//           style={{
-//             textDecoration: router.pathname !== '/' ? 'underline' : 'unset',
-//           }}
-//           underline>
-//           Blog
-//         </Anchor>
-//         <Anchor
-//           component={Link}
-//           href="/projects"
-//           color={router.pathname === '/projects' ? 'white' : 'dimmed'}
-//           style={{
-//             textDecoration:
-//               router.pathname !== '/projects' ? 'underline' : 'unset',
-//           }}>
-//           Projects
-//         </Anchor>
-//         {user && <UserMenu />}
-//       </Group>
-//     </Flex>
-//   </Container>
-//   <Flex direction="column">
-
-//   <Container size="sm" display="flex" >
-//     {props.children}
-//   </Container>
-//   </Flex>
-//   <Container size="sm">Footer</Container>
-// </Container>
