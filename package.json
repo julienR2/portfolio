@@ -3,11 +3,10 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "install:exif": "mkdir -p ./utils/exif/lib && curl https://exiftool.org/Image-ExifTool-12.60.tar.gz | tar -xz --directory=./utils/exif/lib --strip-components=1",
-    "postinstall": "npm run install:exif",
     "dev": "next dev",
     "build": "next build",
-    "start": " cd supabase && npm start && cd .. && npm install && next start -p 8080",
+    "start:supabase": "cd supabase && npm start",
+    "start": "next start",
     "generate:types": "export $(grep -v '^#' .env | xargs) && npx supabase gen types typescript --project-id \"$SUPABASE_PROJECT_ID_REMOTE\" > types/supabase_remote.ts",
     "lint": "next lint",
     "typecheck": "tsc",
