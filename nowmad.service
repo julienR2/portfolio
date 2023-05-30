@@ -6,7 +6,7 @@ After=network.target
 Type=simple
 User=julien
 WorkingDirectory=/home/julien/nowmad
-ExecStart=/usr/bin/npm start
+ExecStart=/usr/bin/npm run start:supabase && /usr/bin/npm start -p 8080
 Restart=on-failure
 
 [Install]
