@@ -1,8 +1,6 @@
-import { Text } from '@mantine/core'
 import { RichTextEditor } from '@mantine/tiptap'
 import { useEditor } from '@tiptap/react'
 import StarterKit from '@tiptap/starter-kit'
-import Link from 'next/link'
 
 import AppLayout from '@/layouts/AppLayout'
 
