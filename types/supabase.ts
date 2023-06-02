@@ -9,39 +9,50 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      Media: {
+      Project: {
         Row: {
-          creationTime: string
-          description: string | null
-          extension: string
-          id: string
-          latitude: number | null
-          longitude: number | null
-          owner: string
-          path: string
-          uri: string | null
+          description: string
+          id: number
+          image: string
+          link: string
+          name: string
+          position: number | null
+          wip: boolean | null
         }
         Insert: {
-          creationTime: string
-          description?: string | null
-          extension: string
-          id?: string
-          latitude?: number | null
-          longitude?: number | null
-          owner: string
-          path: string
-          uri?: string | null
+          description: string
+          id?: number
+          image: string
+          link: string
+          name: string
+          position?: number | null
+          wip?: boolean | null
         }
         Update: {
-          creationTime?: string
-          description?: string | null
-          extension?: string
-          id?: string
-          latitude?: number | null
-          longitude?: number | null
-          owner?: string
-          path?: string
-          uri?: string | null
+          description?: string
+          id?: number
+          image?: string
+          link?: string
+          name?: string
+          position?: number | null
+          wip?: boolean | null
+        }
+      }
+      TobyUsers: {
+        Row: {
+          created_at: string | null
+          email: string
+          id: number
+        }
+        Insert: {
+          created_at?: string | null
+          email: string
+          id?: number
+        }
+        Update: {
+          created_at?: string | null
+          email?: string
+          id?: number
         }
       }
     }
@@ -59,4 +70,3 @@ export interface Database {
     }
   }
 }
-
