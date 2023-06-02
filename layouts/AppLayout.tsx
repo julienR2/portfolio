@@ -11,6 +11,7 @@ import {
   Anchor,
   Group,
   Stack,
+  useMantineTheme,
 } from '@mantine/core'
 import Link from 'next/link'
 import { useUser } from '@supabase/auth-helpers-react'
@@ -19,18 +20,22 @@ import { useRouter } from 'next/router'
 import UserMenu from '@/components/UserMenu'
 
 type AppLAyoutProps = {
+  title?: string
   children: React.ReactNode
 }
 
-export default function AppLayout(props: AppLAyoutProps) {
+export default function AppLayout({ title, children }: AppLAyoutProps) {
   const user = useUser()
   const router = useRouter()
+  const theme = useMantineTheme()
 
   return (
     <Container size="sm">
       <Stack h="100vh">
         <Group position="apart" py="xl">
-          <Title weight={900}>Nowmad</Title>
+          <Title weight={900} color={title && theme.primaryColor}>
+            {title || 'Nowmad'}
+          </Title>
           <Group>
             <Anchor
               component={Link}
@@ -55,9 +60,9 @@ export default function AppLayout(props: AppLAyoutProps) {
             {user && <UserMenu />}
           </Group>
         </Group>
-        <Group style={{ flex: 1 }} align="flex-start">
-          {props.children}
-        </Group>
+        <Stack style={{ flex: 1 }} align="flex-start">
+          {children}
+        </Stack>
         <Group position="center" py="lg">
           <Anchor
             href="https://github.com/julienr2"
