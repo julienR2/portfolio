@@ -1,14 +1,4 @@
-import {
-  Avatar,
-  Group,
-  Image,
-  Menu,
-  Stack,
-  Text,
-  UnstyledButton,
-} from '@mantine/core'
-import { IconPower, IconUser } from '@tabler/icons-react'
-import Link from 'next/link'
+import { Group, Image, Stack, Text } from '@mantine/core'
 import React from 'react'
 
 const About = () => {
