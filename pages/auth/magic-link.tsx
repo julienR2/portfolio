@@ -1,12 +1,12 @@
 import {
-  TextInput,
-  Paper,
-  Title,
-  Text,
-  Container,
   Button,
-  useMantineTheme,
+  Container,
   Group,
+  Paper,
+  Text,
+  TextInput,
+  Title,
+  useMantineTheme,
 } from '@mantine/core'
 import { useInputState } from '@mantine/hooks'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
@@ -41,11 +41,11 @@ export default function Login() {
     },
     [supabaseClient, email],
   )
-  console.log('theme.colors.green', theme.colors.green)
+
   return (
     <Container size={420} my={40}>
-      <Title align='center'>Welcome back!</Title>
-      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+      <Title align="center">Welcome back!</Title>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         {success ? (
           <Group>
             <IconCircleCheck size={24} color={theme.colors.green[9]} />
@@ -54,14 +54,14 @@ export default function Login() {
         ) : (
           <form onSubmit={onSubmit}>
             <TextInput
-              label='Email'
-              placeholder='you@mantine.dev'
+              label="Email"
+              placeholder="you@mantine.dev"
               required
               value={email}
               onChange={setEmail}
               disabled={loading}
             />
-            <Button fullWidth mt='xl' type='submit' loading={loading}>
+            <Button fullWidth mt="xl" type="submit" loading={loading}>
               Send me a magic link
             </Button>
           </form>

@@ -24,6 +24,7 @@
     "@mantine/hooks": "^6.0.13",
     "@mantine/next": "^6.0.13",
     "@mantine/notifications": "^6.0.13",
+    "@mantine/spotlight": "^6.0.13",
     "@mantine/tiptap": "^6.0.13",
     "@supabase/auth-helpers-nextjs": "^0.6.1",
     "@supabase/auth-helpers-react": "^0.3.1",
@@ -33,14 +34,17 @@
     "@tiptap/pm": "^2.0.3",
     "@tiptap/react": "^2.0.3",
     "@tiptap/starter-kit": "^2.0.3",
+    "jsdom": "^22.1.0",
     "lodash": "^4.17.21",
     "mime-types": "^2.1.35",
     "next": "13.4.3",
     "nodemailer": "^6.9.3",
     "react": "18.2.0",
-    "react-dom": "18.2.0"
+    "react-dom": "18.2.0",
+    "video.js": "^8.3.0"
   },
   "devDependencies": {
+    "@types/jsdom": "^21.1.1",
     "@types/lodash": "^4.14.195",
     "@types/mime-types": "^2.1.1",
     "@types/node": "20.2.3",

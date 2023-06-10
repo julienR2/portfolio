@@ -9,7 +9,31 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      Project: {
+      beach_cams: {
+        Row: {
+          id: string
+          location: string | null
+          name: string | null
+          url: string | null
+          video_url: string | null
+        }
+        Insert: {
+          id: string
+          location?: string | null
+          name?: string | null
+          url?: string | null
+          video_url?: string | null
+        }
+        Update: {
+          id?: string
+          location?: string | null
+          name?: string | null
+          url?: string | null
+          video_url?: string | null
+        }
+        Relationships: []
+      }
+      project: {
         Row: {
           description: string
           id: number
@@ -37,8 +61,9 @@ export interface Database {
           position?: number | null
           wip?: boolean | null
         }
+        Relationships: []
       }
-      TobyUsers: {
+      toby_users: {
         Row: {
           created_at: string | null
           email: string
@@ -54,6 +79,7 @@ export interface Database {
           email?: string
           id?: number
         }
+        Relationships: []
       }
     }
     Views: {

@@ -9,7 +9,7 @@ const getInitials = (email?: string) => {
 
   if (email.includes('.')) {
     const [name, surname] = email.split('.')
-    console.log('name', name, surname)
+
     return `${name[0]}${surname[0]}`.toUpperCase()
   }
 
@@ -25,25 +25,20 @@ const UserMenu = () => {
   }, [supabaseClient])
 
   return (
-    <Menu position='bottom-end'>
+    <Menu position="bottom-end">
       <Menu.Target>
         <UnstyledButton>
-          <Avatar radius='xl'>{getInitials(user?.email)}</Avatar>
+          <Avatar radius="xl">{getInitials(user?.email)}</Avatar>
         </UnstyledButton>
       </Menu.Target>
       <Menu.Dropdown>
-        <Menu.Item
-          component={Link}
-          href='/profile'
-          icon={<IconUser size={16} />}
-        >
-          Profile
+        <Menu.Item component={Link} href="/admin" icon={<IconUser size={16} />}>
+          Admin
         </Menu.Item>
         <Menu.Item
           icon={<IconPower size={16} />}
-          color='red'
-          onClick={onLogout}
-        >
+          color="red"
+          onClick={onLogout}>
           Logout
         </Menu.Item>
       </Menu.Dropdown>

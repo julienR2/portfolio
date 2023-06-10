@@ -1,8 +1,7 @@
 import { Anchor, Card, Grid, Image, Text } from '@mantine/core'
-import { GetServerSideProps } from 'next'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { sortBy } from 'lodash'
-import React from 'react'
+import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 
 import AppLayout from '@/layouts/AppLayout'
@@ -10,7 +9,7 @@ import { Database } from '@/types/supabase'
 import { IS_DEV } from '@/utils/constants'
 
 type ProjectsProps = {
-  projects: Database['public']['Tables']['Project']['Row'][]
+  projects: Database['public']['Tables']['project']['Row'][]
 }
 
 export default function Projects({ projects }: ProjectsProps) {
@@ -62,7 +61,7 @@ export const getServerSideProps: GetServerSideProps = async (ctx) => {
   const supabase = createServerSupabaseClient<Database>(ctx)
 
   const { data: projects } = await supabase
-    .from('Project')
+    .from('project')
     .select('*')
     .eq(IS_DEV ? '' : 'wip', false)
 
