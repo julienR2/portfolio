@@ -1,3 +1,4 @@
+import { Box } from '@mantine/core'
 import React from 'react'
 import videojs from 'video.js'
 import Player from 'video.js/dist/types/player'
@@ -31,7 +32,7 @@ export const VideoJS = ({ onReady, src, autoplay, muted }: VideoJSProps) => {
         onReady?.(player)
       }))
     } else {
-      playerRef.current.src(options.sources)
+      playerRef.current.options(options)
     }
   }, [options, onReady])
 
@@ -46,10 +47,21 @@ export const VideoJS = ({ onReady, src, autoplay, muted }: VideoJSProps) => {
     }
   }, [playerRef])
 
+  const onFullScreen = React.useCallback(() => {
+    videoRef.current?.requestFullscreen()
+  }, [])
+
   return (
-    <div data-vjs-player>
+    <Box
+      data-vjs-player
+      onClick={onFullScreen}
+      sx={{
+        '&:hover': {
+          cursor: 'pointer',
+        },
+      }}>
       <div ref={videoRef} />
-    </div>
+    </Box>
   )
 }
 
