@@ -35,7 +35,7 @@ export default function Projects() {
 
   const onSelectCam = React.useCallback(
     (cam: DatabaseRow<'beach_cams'>) => () => {
-      setSelectedCams((prevCams) => [...(prevCams || defaultCams), cam])
+      setSelectedCams((prevCams) => [cam, ...(prevCams || defaultCams)])
     },
     [defaultCams, setSelectedCams],
   )
@@ -74,7 +74,7 @@ export default function Projects() {
         searchPlaceholder="Search cameras..."
         shortcut="mod + shift + 1"
         nothingFoundMessage="Nothing found...">
-        <Group position="center" mb="xl" w="100%">
+        <Group position="center" mb="sm" w="100%">
           <Button
             color="blue"
             onClick={() => spotlight.open()}
@@ -83,9 +83,9 @@ export default function Projects() {
           </Button>
         </Group>
       </SpotlightProvider>
-      <Grid w="100%" gutter="xl">
+      <Grid gutter="xl" mt="xs">
         {(selectedCams || defaultCams).map((cam) => (
-          <Grid.Col xs={6} sm={6} key={cam.id}>
+          <Grid.Col xs={12} sm={6} key={cam.id}>
             <Text weight={500} lineClamp={1}>
               <Group align="center" mb="sm" position="apart">
                 {cam.name}
