@@ -3,7 +3,7 @@ import React from 'react'
 
 const About = () => {
   return (
-    <Group align="center">
+    <Group align="center" position="left">
       <Image
         maw={56}
         mx="auto"
@@ -11,7 +11,7 @@ const About = () => {
         src="/images/profile.jpg"
         alt="Profile picture"
       />
-      <Stack justify="center">
+      <Stack justify="center" sx={{ flex: 1 }}>
         <Text>
           Hey ! I&apos;m Julien.
           <br />

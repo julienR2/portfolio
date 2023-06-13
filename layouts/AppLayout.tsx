@@ -1,10 +1,10 @@
 import { Anchor, Container, Group, Stack, Title } from '@mantine/core'
 import { useUser } from '@supabase/auth-helpers-react'
-import Head from 'next/head'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
 
+import Metadata from '@/components/Metadata'
 import UserMenu from '@/components/UserMenu'
 
 type AppLAyoutProps = {
@@ -15,14 +15,9 @@ type AppLAyoutProps = {
 export default function AppLayout({ title, children }: AppLAyoutProps) {
   const user = useUser()
   const router = useRouter()
-
-  const pageTitle = `${title ? `${title} - ` : ''}Nowmad`
-
   return (
     <>
-      <Head>
-        <title>{pageTitle}</title>
-      </Head>
+      <Metadata title={title} />
       <Container size="sm">
         <Stack h="100vh">
           <Group position="apart" py="xl">
