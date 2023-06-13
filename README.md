@@ -8,11 +8,6 @@
 
 ## Specific installs
 
-### Mono repo
-
-Eslint, and prettier are handled at the root of the repo.
-So we should always run a `npm install` from the root of the project.
-
 ### Service
 
 `nowmad.service` is meant to be installed in `systemd`, to be trigger when the server boots.
@@ -89,7 +84,6 @@ Also since Docker can use quite some space, we actually move it to it's own USB 
 
 Supabase Docker files are located in [their github](https://github.com/supabase/supabase/tree/master/docker).
 Those are the files located locally in `supabase` from which we adjusted the config and triggered a `docker compose up`
-
 
 ### Pupeteer
 
