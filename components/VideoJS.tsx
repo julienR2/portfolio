@@ -18,6 +18,7 @@ export const VideoJS = ({ onReady, src, autoplay, muted }: VideoJSProps) => {
       muted,
       sources: [{ src, type: 'application/x-mpegURL' }],
       fluid: true,
+      controls: false,
     }),
     [autoplay, muted, src],
   )
@@ -48,19 +49,17 @@ export const VideoJS = ({ onReady, src, autoplay, muted }: VideoJSProps) => {
   }, [playerRef])
 
   const onFullScreen = React.useCallback(() => {
-    videoRef.current?.requestFullscreen()
+    playerRef.current?.requestFullscreen()
+    screen.orientation.lock('landscape-primary')
   }, [])
 
   return (
     <Box
-      data-vjs-player
-      onClick={onFullScreen}
-      sx={{
-        '&:hover': {
-          cursor: 'pointer',
-        },
-      }}>
-      <div ref={videoRef} />
+      sx={{ cursor: 'pointer', video: { pointerEvents: 'none' } }}
+      onClick={onFullScreen}>
+      <div data-vjs-player>
+        <div ref={videoRef} />
+      </div>
     </Box>
   )
 }
