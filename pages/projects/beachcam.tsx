@@ -1,13 +1,27 @@
-import { ActionIcon, Button, Card, Grid, Group, Text } from '@mantine/core'
+import {
+  DndContext,
+  DragEndEvent,
+  MouseSensor,
+  TouchSensor,
+  closestCenter,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
+  SortableContext,
+  arrayMove,
+  rectSortingStrategy,
+} from '@dnd-kit/sortable'
+import { Button, Grid, Group } from '@mantine/core'
 import {
   SpotlightAction,
   SpotlightProvider,
   spotlight,
 } from '@mantine/spotlight'
-import { IconSearch, IconVideo, IconX } from '@tabler/icons-react'
+import { IconSearch, IconVideo } from '@tabler/icons-react'
 import React from 'react'
 
-import VideoJS from '@/components/VideoJS'
+import SortableCam from '@/components/SortableCam'
 import AppLayout from '@/layouts/AppLayout'
 import { DatabaseRow } from '@/types/utils'
 import { createStore, useStoreItem } from '@/utils/hooks/useStore'
@@ -42,7 +56,7 @@ export default function Projects() {
 
   const actions = React.useMemo<SpotlightAction[]>(
     () =>
-      (availableCams || defaultCams || [])
+      (availableCams || [])
         .filter(
           (cam) =>
             !selectedCams?.find((selectedCam) => selectedCam.id === cam.id),
@@ -53,7 +67,41 @@ export default function Projects() {
           group: cam.location || '',
           onTrigger: onSelectCam(cam),
         })),
-    [availableCams, onSelectCam, selectedCams, defaultCams],
+    [availableCams, onSelectCam, selectedCams],
+  )
+
+  const sensors = useSensors(
+    useSensor(MouseSensor, {
+      activationConstraint: {
+        distance: 10,
+      },
+    }),
+    useSensor(TouchSensor, {
+      activationConstraint: {
+        delay: 250,
+        tolerance: 5,
+      },
+    }),
+  )
+
+  const items = selectedCams || defaultCams
+
+  const handleDragEnd = React.useCallback(
+    (event: DragEndEvent) => {
+      const { active, over } = event
+
+      if (active.id !== over?.id) {
+        setSelectedCams((prevCams) => {
+          if (!prevCams) return prevCams
+
+          const oldIndex = prevCams.findIndex(({ id }) => id === active.id)
+          const newIndex = prevCams.findIndex(({ id }) => id === over?.id)
+
+          return arrayMove(prevCams, oldIndex, newIndex)
+        })
+      }
+    },
+    [setSelectedCams],
   )
 
   const onDelete = React.useCallback(
@@ -84,37 +132,18 @@ export default function Projects() {
         </Group>
       </SpotlightProvider>
       <Grid gutter="xl" mt="xs">
-        {(selectedCams || defaultCams).map((cam) => (
-          <Grid.Col xs={12} sm={6} key={cam.id}>
-            <Text weight={500} lineClamp={1}>
-              <Group align="center" mb="sm" position="apart">
-                {cam.name}
-                <ActionIcon
-                  radius="sm"
-                  size="sm"
-                  color="red"
-                  onClick={onDelete(cam.id)}>
-                  <IconX size="1rem" color="gray" />
-                </ActionIcon>
-              </Group>
-            </Text>
-            <Card
-              shadow="sm"
-              padding="sm"
-              radius="md"
-              withBorder
-              sx={(theme) => ({
-                '&:hover': {
-                  boxShadow: theme.shadows.xl,
-                  borderColor: theme.colors.gray[7],
-                },
-              })}>
-              <Card.Section>
-                <VideoJS src={cam.video_url || ''} autoplay muted />
-              </Card.Section>
-            </Card>
-          </Grid.Col>
-        ))}
+        <DndContext
+          sensors={sensors}
+          collisionDetection={closestCenter}
+          onDragEnd={handleDragEnd}>
+          <SortableContext
+            items={selectedCams || defaultCams}
+            strategy={rectSortingStrategy}>
+            {items.map((cam) => (
+              <SortableCam key={cam.id} cam={cam} onDelete={onDelete} />
+            ))}
+          </SortableContext>
+        </DndContext>
       </Grid>
     </AppLayout>
   )
