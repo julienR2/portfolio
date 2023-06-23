@@ -1,4 +1,11 @@
-import { Anchor, Card, Grid, Image, Text } from '@mantine/core'
+import {
+  Anchor,
+  Card,
+  Grid,
+  Image,
+  Text,
+  useMantineColorScheme,
+} from '@mantine/core'
 import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { sortBy } from 'lodash'
 import { GetServerSideProps } from 'next'
@@ -13,6 +20,8 @@ type ProjectsProps = {
 }
 
 export default function Projects({ projects }: ProjectsProps) {
+  const { colorScheme } = useMantineColorScheme()
+
   return (
     <AppLayout>
       <Grid gutter="xl">
@@ -31,7 +40,8 @@ export default function Projects({ projects }: ProjectsProps) {
                 sx={(theme) => ({
                   '&:hover': {
                     boxShadow: theme.shadows.xl,
-                    borderColor: theme.colors.gray[7],
+                    borderColor:
+                      theme.colors.gray[colorScheme === 'dark' ? 7 : 4],
                   },
                 })}>
                 <Image
