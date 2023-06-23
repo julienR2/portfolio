@@ -15,7 +15,7 @@ import { Database } from '@/types/supabase'
 const supabaseClient = createBrowserSupabaseClient<Database>()
 
 export default function App({ Component, pageProps }: AppProps) {
-  const [colorScheme, setColorScheme] = React.useState<ColorScheme>('light')
+  const [colorScheme, setColorScheme] = React.useState<ColorScheme>('dark')
 
   const toggleColorScheme = React.useCallback(
     (value?: ColorScheme) =>
