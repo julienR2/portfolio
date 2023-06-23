@@ -1,5 +1,14 @@
-import { Anchor, Container, Group, Stack, Title } from '@mantine/core'
+import {
+  ActionIcon,
+  Anchor,
+  Container,
+  Group,
+  Stack,
+  Title,
+  useMantineColorScheme,
+} from '@mantine/core'
 import { useUser } from '@supabase/auth-helpers-react'
+import { IconMoon, IconSun } from '@tabler/icons-react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React from 'react'
@@ -15,33 +24,50 @@ type AppLAyoutProps = {
 export default function AppLayout({ title, children }: AppLAyoutProps) {
   const user = useUser()
   const router = useRouter()
+  const { colorScheme, toggleColorScheme } = useMantineColorScheme()
+
   return (
     <>
       <Metadata title={title} />
       <Container size="sm">
         <Stack h="100vh">
           <Group position="apart" py="xl">
-            <Title weight={900}>{title || 'Nowmad'}</Title>
+            <Anchor
+              component={Link}
+              href={title ? '' : '/'}
+              underline={false}
+              color="gray">
+              <Title weight={900}>{title || 'Nowmad'}</Title>
+            </Anchor>
             <Group>
+              <ActionIcon onClick={() => toggleColorScheme()}>
+                {colorScheme === 'dark' ? (
+                  <IconSun size="1rem" />
+                ) : (
+                  <IconMoon size="1rem" />
+                )}
+              </ActionIcon>
               <Anchor
                 component={Link}
                 href="/"
-                color={router.pathname === '/' ? 'white' : 'dimmed'}
+                color={router.pathname === '/' ? 'gray' : 'dimmed'}
                 style={{
                   textDecoration:
                     router.pathname !== '/' ? 'underline' : 'unset',
                 }}
-                underline>
+                underline
+                weight={500}>
                 Blog
               </Anchor>
               <Anchor
                 component={Link}
                 href="/projects"
-                color={router.pathname === '/projects' ? 'white' : 'dimmed'}
+                color={router.pathname === '/projects' ? 'gray' : 'dimmed'}
                 style={{
                   textDecoration:
                     router.pathname !== '/projects' ? 'underline' : 'unset',
-                }}>
+                }}
+                weight={500}>
                 Projects
               </Anchor>
               {user && <UserMenu />}
