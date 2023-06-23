@@ -15,9 +15,9 @@ type ProjectsProps = {
 export default function Projects({ projects }: ProjectsProps) {
   return (
     <AppLayout>
-      <Grid w="100%" gutter="xl">
-        {sortBy(projects, '').map((project) => (
-          <Grid.Col span={6} key={project.id}>
+      <Grid gutter="xl">
+        {sortBy(projects, 'position').map((project) => (
+          <Grid.Col span={6} md={6} key={project.id}>
             <Anchor
               href={project.link}
               component={Link}
@@ -34,14 +34,12 @@ export default function Projects({ projects }: ProjectsProps) {
                     borderColor: theme.colors.gray[7],
                   },
                 })}>
-                <Card.Section>
-                  <Image
-                    src={project.image}
-                    height={160}
-                    alt={`Preview of ${project.name}`}
-                    imageProps={{ style: { objectPosition: 'top' } }}
-                  />
-                </Card.Section>
+                <Image
+                  src={project.image}
+                  height={80}
+                  alt={`Preview of ${project.name}`}
+                  fit="contain"
+                />
                 <Text weight={500} mt="md" mb="xs" lineClamp={1}>
                   {project.name}
                 </Text>

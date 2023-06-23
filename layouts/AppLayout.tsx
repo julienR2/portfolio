@@ -47,7 +47,9 @@ export default function AppLayout({ title, children }: AppLAyoutProps) {
               {user && <UserMenu />}
             </Group>
           </Group>
-          <Stack sx={{ flex: 1 }}>{children}</Stack>
+          <Stack sx={{ flex: 1 }} mb="md">
+            {children}
+          </Stack>
           <Group position="center" py="lg">
             <Anchor
               href="https://github.com/julienr2"
