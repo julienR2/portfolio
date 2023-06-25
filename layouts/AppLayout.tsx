@@ -37,7 +37,7 @@ export default function AppLayout({ title, children }: AppLAyoutProps) {
               href={title ? '' : '/'}
               underline={false}
               color="gray">
-              <Title weight={900}>{title || 'Nowmad'}</Title>
+              <Title weight={900}>{title || 'bka'}</Title>
             </Anchor>
             <Group>
               <ActionIcon onClick={() => toggleColorScheme()}>
