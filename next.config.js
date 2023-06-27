@@ -1,6 +1,9 @@
 /** @type {import('next').NextConfig} */
-const nextConfig = {
-  reactStrictMode: true,
-}
 
-module.exports = nextConfig
+const { withPlausibleProxy } = require('next-plausible')
+
+module.exports = withPlausibleProxy({
+  customDomain: 'https://analytics.nowmad.io',
+})({
+  reactStrictMode: true,
+})
