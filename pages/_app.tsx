@@ -6,7 +6,7 @@ import {
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import PlausibleProvider from 'next-plausible'
-import { AppProps } from 'next/app'
+import { AppContext, AppProps } from 'next/app'
 import { IBM_Plex_Sans, Lato } from 'next/font/google'
 import Head from 'next/head'
 import React from 'react'
@@ -16,22 +16,29 @@ import { Database } from '@/types/supabase'
 
 const supabaseClient = createBrowserSupabaseClient<Database>()
 
-const imbFonts = IBM_Plex_Sans({
+const imbFont = IBM_Plex_Sans({
   weight: ['400', '500', '600'],
   style: ['normal', 'italic'],
   subsets: ['latin'],
 })
 
-const latoFonts = Lato({ weight: ['700', '900'], subsets: ['latin'] })
+const latoFont = Lato({ weight: ['700', '900'], subsets: ['latin'] })
 
-export default function App({ Component, pageProps }: AppProps) {
-  const [colorScheme, setColorScheme] = React.useState<ColorScheme>('dark')
+export default function _App({ Component, pageProps }: AppProps) {
+  const [colorScheme, setColorScheme] = React.useState<ColorScheme>(
+    pageProps.theme || 'dark',
+  )
 
   const toggleColorScheme = React.useCallback(
     (value?: ColorScheme) =>
-      setColorScheme(
-        (prevScheme) => value || (prevScheme === 'dark' ? 'light' : 'dark'),
-      ),
+      setColorScheme((prevScheme) => {
+        const newValue = value || (prevScheme === 'dark' ? 'light' : 'dark')
+
+        document.cookie = `theme=${newValue}`
+
+        return newValue
+      }),
+
     [],
   )
 
@@ -46,8 +53,8 @@ export default function App({ Component, pageProps }: AppProps) {
       <Head>
         <style jsx global>{`
           html {
-            font-family: ${imbFonts.style.fontFamily};
-            font-family: ${latoFonts.style.fontFamily};
+            font-family: ${imbFont.style.fontFamily};
+            font-family: ${latoFont.style.fontFamily};
           }
         `}</style>
       </Head>
@@ -65,8 +72,8 @@ export default function App({ Component, pageProps }: AppProps) {
             theme={{
               colorScheme,
               primaryColor: 'teal',
-              fontFamily: imbFonts.style.fontFamily,
-              headings: { fontFamily: latoFonts.style.fontFamily },
+              fontFamily: imbFont.style.fontFamily,
+              headings: { fontFamily: latoFont.style.fontFamily },
               components: {
                 TypographyStylesProvider: {
                   variants: {
@@ -91,4 +98,10 @@ export default function App({ Component, pageProps }: AppProps) {
       </PlausibleProvider>
     </>
   )
+}
+
+_App.getInitialProps = async ({ ctx }: AppContext) => {
+  const theme = (ctx.req as any).cookies?.theme
+
+  return { pageProps: { theme } }
 }
