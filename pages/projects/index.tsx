@@ -16,7 +16,7 @@ import { Database } from '@/types/supabase'
 import { IS_DEV } from '@/utils/constants'
 
 type ProjectsProps = {
-  projects: Database['public']['Tables']['project']['Row'][]
+  projects: Database['public']['Tables']['project']['Row'][] | null
 }
 
 export default function Projects({ projects }: ProjectsProps) {
@@ -65,13 +65,15 @@ export default function Projects({ projects }: ProjectsProps) {
   )
 }
 
-export const getServerSideProps: GetServerSideProps = async (ctx) => {
+export const getServerSideProps: GetServerSideProps<ProjectsProps> = async (
+  ctx,
+) => {
   const supabase = createServerSupabaseClient<Database>(ctx)
 
   const { data: projects } = await supabase
     .from('project')
     .select('*')
-    .eq(IS_DEV ? '' : 'wip', false)
+    .eq(IS_DEV ? '' : 'draft', false)
 
   return {
     props: {

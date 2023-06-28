@@ -3,7 +3,7 @@ export type Json =
   | number
   | boolean
   | null
-  | { [key: string]: Json }
+  | { [key: string]: Json | undefined }
   | Json[]
 
 export interface Database {
@@ -33,33 +33,63 @@ export interface Database {
         }
         Relationships: []
       }
+      post: {
+        Row: {
+          created_at: string | null
+          description: string
+          draft: boolean
+          id: string
+          markdown: string
+          slug: string | null
+          title: string
+        }
+        Insert: {
+          created_at?: string | null
+          description?: string
+          draft?: boolean
+          id?: string
+          markdown?: string
+          slug?: string | null
+          title?: string
+        }
+        Update: {
+          created_at?: string | null
+          description?: string
+          draft?: boolean
+          id?: string
+          markdown?: string
+          slug?: string | null
+          title?: string
+        }
+        Relationships: []
+      }
       project: {
         Row: {
           description: string
+          draft: boolean
           id: number
           image: string
           link: string
           name: string
           position: number | null
-          wip: boolean | null
         }
         Insert: {
           description: string
+          draft?: boolean
           id?: number
           image: string
           link: string
           name: string
           position?: number | null
-          wip?: boolean | null
         }
         Update: {
           description?: string
+          draft?: boolean
           id?: number
           image?: string
           link?: string
           name?: string
           position?: number | null
-          wip?: boolean | null
         }
         Relationships: []
       }
