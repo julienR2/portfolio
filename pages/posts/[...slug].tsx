@@ -3,6 +3,7 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { marked } from 'marked'
 import { GetServerSideProps } from 'next'
 
+import About from '@/components/About'
 import AppLayout from '@/layouts/AppLayout'
 import { Database } from '@/types/supabase'
 
@@ -20,8 +21,8 @@ export default function Post({ post }: PostProps) {
           <Skeleton height={28} my={8} w={500} />
         )}
       </Box>
-      <Box mt="xl">
-        <TypographyStylesProvider>
+      <Box my="xl">
+        <TypographyStylesProvider variant="post">
           <Skeleton visible={!post}>
             <div
               dangerouslySetInnerHTML={{
@@ -30,6 +31,9 @@ export default function Post({ post }: PostProps) {
             />
           </Skeleton>
         </TypographyStylesProvider>
+      </Box>
+      <Box mt="xl">
+        <About />
       </Box>
     </AppLayout>
   )
