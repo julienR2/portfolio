@@ -124,7 +124,6 @@ export default function Projects() {
         nothingFoundMessage="Nothing found...">
         <Group position="center" mb="sm" w="100%">
           <Button
-            color="blue"
             onClick={() => spotlight.open()}
             leftIcon={<IconVideo size="1.2rem" />}>
             Add Cameras
