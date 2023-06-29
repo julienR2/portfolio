@@ -97,8 +97,8 @@ export default function _App({ Component, pageProps }: AppProps) {
   )
 }
 
-_App.getInitialProps = async ({ Component, ctx }: AppContext) => {
+_App.getInitialProps = async ({ ctx }: AppContext) => {
   const theme = (ctx.req as any).cookies?.theme
 
-  return { Component, pageProps: { theme } }
+  return { pageProps: { theme } }
 }
