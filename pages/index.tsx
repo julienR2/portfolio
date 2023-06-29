@@ -27,7 +27,6 @@ export default function Index({ posts }: IndexProps) {
             <Text c="dimmed" fz="sm">
               {formatDate(post.created_at)}
             </Text>
-            <Text mt={2}>{post.description}</Text>
           </Box>
         ))}
       </Stack>

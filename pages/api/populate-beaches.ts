@@ -37,7 +37,7 @@ export default async function handler(
             [...el.querySelectorAll('a')].map((el) =>
               fetch('https://beachcam.meo.pt' + el.href)
                 .then((res) => res.text())
-                .then((html): DatabaseRow<'beach_cams'> => {
+                .then((html): DatabaseRow<'beach_cam'> => {
                   const beachName =
                     html.match(/var name = '(?<beachName>.*?)';/)?.groups
                       ?.beachName || ''
@@ -60,7 +60,7 @@ export default async function handler(
       ),
     )
 
-    const links: DatabaseRow<'beach_cams'>[] = rawLinks.flat()
+    const links: DatabaseRow<'beach_cam'>[] = rawLinks.flat()
 
     const { data, error } = await supabaseServerClient
       .from('beach_cams')

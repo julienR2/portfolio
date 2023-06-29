@@ -9,7 +9,7 @@ import { DatabaseRow } from '@/types/utils'
 import VideoJS from './VideoJS'
 
 type SortableCamProps = {
-  cam: DatabaseRow<'beach_cams'>
+  cam: DatabaseRow<'beach_cam'>
   onDelete: (cameId: string) => () => void
 }
 

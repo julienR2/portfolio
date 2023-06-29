@@ -9,7 +9,7 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      beach_cams: {
+      beach_cam: {
         Row: {
           id: string
           location: string | null
@@ -36,7 +36,6 @@ export interface Database {
       post: {
         Row: {
           created_at: string | null
-          description: string
           draft: boolean
           id: string
           markdown: string
@@ -45,7 +44,6 @@ export interface Database {
         }
         Insert: {
           created_at?: string | null
-          description?: string
           draft?: boolean
           id?: string
           markdown?: string
@@ -54,7 +52,6 @@ export interface Database {
         }
         Update: {
           created_at?: string | null
-          description?: string
           draft?: boolean
           id?: string
           markdown?: string
@@ -93,7 +90,7 @@ export interface Database {
         }
         Relationships: []
       }
-      toby_users: {
+      toby_user: {
         Row: {
           created_at: string | null
           email: string

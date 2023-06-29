@@ -34,11 +34,11 @@ const DEFAULT_CAM_IDS = [
 ]
 
 const store = createStore('beachcam', {
-  selectedCams: null as DatabaseRow<'beach_cams'>[] | null,
+  selectedCams: null as DatabaseRow<'beach_cam'>[] | null,
 })
 
 export default function Projects() {
-  const { data: availableCams } = useSupabaseSelect('beach_cams')
+  const { data: availableCams } = useSupabaseSelect('beach_cam')
 
   const [selectedCams, setSelectedCams] = useStoreItem(store, 'selectedCams')
 
@@ -48,7 +48,7 @@ export default function Projects() {
   )
 
   const onSelectCam = React.useCallback(
-    (cam: DatabaseRow<'beach_cams'>) => () => {
+    (cam: DatabaseRow<'beach_cam'>) => () => {
       setSelectedCams((prevCams) => [cam, ...(prevCams || defaultCams)])
     },
     [defaultCams, setSelectedCams],
