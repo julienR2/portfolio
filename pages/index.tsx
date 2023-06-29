@@ -18,10 +18,10 @@ export default function Index({ posts }: IndexProps) {
       <Box mb="xl">
         <About />
       </Box>
-      <Stack mt="xl">
+      <Stack mt="xl" spacing="xl">
         {posts?.map((post) => (
           <Box key={post.id}>
-            <Anchor href={`/posts/${post.slug}`}>
+            <Anchor href={`/posts/${post.slug}`} c="teal">
               <Title>{post.title}</Title>
             </Anchor>
             <Text c="dimmed" fz="sm">

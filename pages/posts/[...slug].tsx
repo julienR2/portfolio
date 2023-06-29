@@ -16,7 +16,7 @@ export default function Post({ post }: PostProps) {
     <AppLayout>
       <Box mt="xl" mb="xl">
         {post ? (
-          <Title>{post.title}</Title>
+          <Title color="teal">{post.title}</Title>
         ) : (
           <Skeleton height={28} my={8} w={500} />
         )}
