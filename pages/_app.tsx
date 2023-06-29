@@ -8,7 +8,6 @@ import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import PlausibleProvider from 'next-plausible'
 import { AppContext, AppProps } from 'next/app'
 import { IBM_Plex_Sans, Lato } from 'next/font/google'
-import Head from 'next/head'
 import React from 'react'
 
 import Metadata from '@/components/Metadata'
@@ -50,14 +49,12 @@ export default function _App({ Component, pageProps }: AppProps) {
 
   return (
     <>
-      <Head>
-        <style jsx global>{`
-          html {
-            font-family: ${imbFont.style.fontFamily};
-            font-family: ${latoFont.style.fontFamily};
-          }
-        `}</style>
-      </Head>
+      <style jsx global>{`
+        html {
+          font-family: ${imbFont.style.fontFamily};
+          font-family: ${latoFont.style.fontFamily};
+        }
+      `}</style>
       <PlausibleProvider
         domain="nowmad.io"
         customDomain="https://analytics.nowmad.io"
@@ -100,8 +97,8 @@ export default function _App({ Component, pageProps }: AppProps) {
   )
 }
 
-_App.getInitialProps = async ({ ctx }: AppContext) => {
+_App.getInitialProps = async ({ Component, ctx }: AppContext) => {
   const theme = (ctx.req as any).cookies?.theme
 
-  return { pageProps: { theme } }
+  return { Component, pageProps: { theme } }
 }
