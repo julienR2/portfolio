@@ -53,9 +53,8 @@ export default function AppLayout({ title, children }: AppLAyoutProps) {
                 color={router.pathname === '/' ? 'gray' : 'dimmed'}
                 style={{
                   textDecoration:
-                    router.pathname !== '/' ? 'underline' : 'unset',
+                    router.pathname !== '/' ? undefined : 'underline',
                 }}
-                underline
                 weight={500}>
                 Blog
               </Anchor>
@@ -65,7 +64,7 @@ export default function AppLayout({ title, children }: AppLAyoutProps) {
                 color={router.pathname === '/projects' ? 'gray' : 'dimmed'}
                 style={{
                   textDecoration:
-                    router.pathname !== '/projects' ? 'underline' : 'unset',
+                    router.pathname !== '/projects' ? undefined : 'underline',
                 }}
                 weight={500}>
                 Projects
