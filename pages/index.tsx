@@ -41,7 +41,7 @@ export const getServerSideProps: GetServerSideProps<IndexProps> = async (
 
   const { data: posts } = await supabase
     .from('post')
-    .select('id,title,description,created_at,slug,draft')
+    .select('id,title,created_at,slug,draft')
     .order('created_at', { ascending: false })
     .eq(IS_DEV ? '' : 'draft', false)
 
