@@ -11,9 +11,9 @@ import { sortBy } from 'lodash'
 import { GetServerSideProps } from 'next'
 import Link from 'next/link'
 
+import { IS_DEV } from '@/helpers/constants'
 import AppLayout from '@/layouts/AppLayout'
 import { Database } from '@/types/supabase'
-import { IS_DEV } from '@/utils/constants'
 
 type ProjectsProps = {
   projects: Database['public']['Tables']['project']['Row'][] | null

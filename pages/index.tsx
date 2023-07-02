@@ -3,10 +3,10 @@ import { createServerSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { GetServerSideProps } from 'next'
 
 import About from '@/components/About'
+import { IS_DEV } from '@/helpers/constants'
+import { formatDate } from '@/helpers/date'
 import AppLayout from '@/layouts/AppLayout'
 import { Database } from '@/types/supabase'
-import { IS_DEV } from '@/utils/constants'
-import { formatDate } from '@/utils/date'
 
 type IndexProps = {
   posts: Omit<Database['public']['Tables']['post']['Row'], 'markdown'>[] | null

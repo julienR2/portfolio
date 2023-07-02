@@ -1,10 +1,10 @@
-import path from 'path'
 import fs from 'fs'
+import path from 'path'
 
 import mime from 'mime-types'
 import { NextApiRequest, NextApiResponse } from 'next'
 
-import { STORAGE_PATH } from '../../../utils/constants'
+import { STORAGE_PATH } from '../../../helpers/constants'
 
 import { listDirectory } from './fileSystem'
 

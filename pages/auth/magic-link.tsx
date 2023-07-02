@@ -13,7 +13,7 @@ import { useSupabaseClient } from '@supabase/auth-helpers-react'
 import { IconCircleCheck } from '@tabler/icons-react'
 import React, { FormEvent } from 'react'
 
-import { publicPageProps } from '@/utils/publicPage'
+import { publicPageProps } from '@/helpers/publicPage'
 
 export default function Login() {
   const [email, setEmail] = useInputState('')

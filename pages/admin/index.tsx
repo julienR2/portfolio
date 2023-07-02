@@ -2,8 +2,8 @@ import { ActionIcon, Code, Group, Overlay, Stack, Title } from '@mantine/core'
 import { IconPlayerPlayFilled } from '@tabler/icons-react'
 import React from 'react'
 
+import { protectedPageProps } from '@/helpers/protectedPage'
 import AppLayout from '@/layouts/AppLayout'
-import { protectedPageProps } from '@/utils/protectedPage'
 
 const JOBS = [
   {

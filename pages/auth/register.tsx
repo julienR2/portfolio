@@ -1,20 +1,20 @@
 import {
-  TextInput,
-  PasswordInput,
   Anchor,
-  Paper,
-  Title,
-  Text,
-  Container,
   Button,
+  Container,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from '@mantine/core'
-import Link from 'next/link'
 import { useInputState } from '@mantine/hooks'
-import React, { FormEvent } from 'react'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
+import Link from 'next/link'
 import { useRouter } from 'next/router'
+import React, { FormEvent } from 'react'
 
-import { publicPageProps } from '@/utils/publicPage'
+import { publicPageProps } from '@/helpers/publicPage'
 
 export default function Register() {
   const [email, setEmail] = useInputState('')
@@ -48,36 +48,36 @@ export default function Register() {
 
   return (
     <Container size={420} my={40}>
-      <Title align='center'>Welcome!</Title>
-      <Text color='dimmed' size='sm' align='center' mt={5}>
+      <Title align="center">Welcome!</Title>
+      <Text color="dimmed" size="sm" align="center" mt={5}>
         Already have an account?{' '}
-        <Link href='/auth/login'>
-          <Anchor size='sm' component='button'>
+        <Link href="/auth/login">
+          <Anchor size="sm" component="button">
             Login
           </Anchor>
         </Link>
       </Text>
 
-      <Paper withBorder shadow='md' p={30} mt={30} radius='md'>
+      <Paper withBorder shadow="md" p={30} mt={30} radius="md">
         <form onSubmit={onSubmit}>
           <TextInput
-            label='Email'
-            placeholder='you@mantine.dev'
+            label="Email"
+            placeholder="you@mantine.dev"
             required
             value={email}
             onChange={setEmail}
             disabled={loading}
           />
           <PasswordInput
-            label='Password'
-            placeholder='Your password'
+            label="Password"
+            placeholder="Your password"
             required
-            mt='md'
+            mt="md"
             value={password}
             onChange={setPassword}
             disabled={loading}
           />
-          <Button fullWidth mt='xl' type='submit' loading={loading}>
+          <Button fullWidth mt="xl" type="submit" loading={loading}>
             Sign up
           </Button>
         </form>

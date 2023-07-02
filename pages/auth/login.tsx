@@ -1,12 +1,12 @@
 import {
-  TextInput,
-  PasswordInput,
   Anchor,
-  Paper,
-  Title,
-  Text,
-  Container,
   Button,
+  Container,
+  Paper,
+  PasswordInput,
+  Text,
+  TextInput,
+  Title,
 } from '@mantine/core'
 import { useInputState } from '@mantine/hooks'
 import { useSupabaseClient } from '@supabase/auth-helpers-react'
@@ -14,7 +14,7 @@ import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { FormEvent } from 'react'
 
-import { publicPageProps } from '@/utils/publicPage'
+import { publicPageProps } from '@/helpers/publicPage'
 
 export default function Login() {
   const [email, setEmail] = useInputState('')
