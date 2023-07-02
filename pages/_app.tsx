@@ -33,7 +33,7 @@ export default function _App({ Component, pageProps }: AppProps) {
       setColorScheme((prevScheme) => {
         const newValue = value || (prevScheme === 'dark' ? 'light' : 'dark')
 
-        document.cookie = `mantine-color-scheme=${newValue}`
+        document.cookie = `mantine-color-scheme=${newValue};path=/`
 
         return newValue
       }),
