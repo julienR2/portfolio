@@ -5,16 +5,10 @@
   "scripts": {
     "dev": "next dev",
     "build": "next build",
-    "start:supabase": "cd supabase && npm start",
     "start": "next start",
     "generate:types": "export $(grep -v '^#' .env.local | xargs) && npx supabase gen types typescript --project-id \"$SUPABASE_PROJECT_ID\" > types/supabase.ts",
     "lint": "next lint",
-    "typecheck": "tsc",
-    "service:setup": "sudo cp nowmad.service /lib/systemd/system",
-    "service:start": "sudo systemctl start nowmad.service",
-    "service:stop": "sudo systemctl stop nowmad.service",
-    "service:restart": "sudo systemctl restart nowmad.service",
-    "service:logs": "sudo journalctl -b -u nowmad.service -f"
+    "typecheck": "tsc"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.0.8",
