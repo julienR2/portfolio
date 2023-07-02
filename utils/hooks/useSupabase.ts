@@ -17,6 +17,7 @@ export const useSupabaseSelect = <
       GetResult<
         Database['public'],
         Database['public']['Tables'][FROM]['Row'],
+        [],
         QUERY
       >[]
     >()

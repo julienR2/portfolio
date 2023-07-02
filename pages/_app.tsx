@@ -6,7 +6,7 @@ import {
 import { createBrowserSupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { SessionContextProvider } from '@supabase/auth-helpers-react'
 import PlausibleProvider from 'next-plausible'
-import { AppContext, AppProps } from 'next/app'
+import NextApp, { AppContext, AppProps } from 'next/app'
 import { IBM_Plex_Sans, Lato } from 'next/font/google'
 import React from 'react'
 
@@ -25,7 +25,7 @@ const latoFont = Lato({ weight: ['700', '900'], subsets: ['latin'] })
 
 export default function _App({ Component, pageProps }: AppProps) {
   const [colorScheme, setColorScheme] = React.useState<ColorScheme>(
-    pageProps.theme || 'dark',
+    pageProps.colorScheme,
   )
 
   const toggleColorScheme = React.useCallback(
@@ -33,7 +33,7 @@ export default function _App({ Component, pageProps }: AppProps) {
       setColorScheme((prevScheme) => {
         const newValue = value || (prevScheme === 'dark' ? 'light' : 'dark')
 
-        document.cookie = `theme=${newValue}`
+        document.cookie = `mantine-color-scheme=${newValue}`
 
         return newValue
       }),
@@ -48,57 +48,60 @@ export default function _App({ Component, pageProps }: AppProps) {
   }, [])
 
   return (
-    <>
-      <style jsx global>{`
-        html {
-          font-family: ${imbFont.style.fontFamily};
-          font-family: ${latoFont.style.fontFamily};
-        }
-      `}</style>
-      <PlausibleProvider
-        domain="nowmad.io"
-        customDomain="https://analytics.nowmad.io"
-        trackOutboundLinks
-        selfHosted>
-        <ColorSchemeProvider
-          colorScheme={colorScheme}
-          toggleColorScheme={toggleColorScheme}>
-          <MantineProvider
-            withGlobalStyles
-            withNormalizeCSS
-            theme={{
-              colorScheme,
-              primaryColor: 'teal',
-              fontFamily: imbFont.style.fontFamily,
-              headings: { fontFamily: latoFont.style.fontFamily },
-              components: {
-                TypographyStylesProvider: {
-                  variants: {
-                    post: () => ({
-                      root: {
-                        fontSize: '1.2em',
-                        lineHeight: '1.6em',
-                      },
-                    }),
-                  },
+    <PlausibleProvider
+      domain="nowmad.io"
+      customDomain="https://analytics.nowmad.io"
+      trackOutboundLinks
+      selfHosted>
+      <ColorSchemeProvider
+        colorScheme={colorScheme}
+        toggleColorScheme={toggleColorScheme}>
+        <MantineProvider
+          withGlobalStyles
+          withNormalizeCSS
+          theme={{
+            colorScheme,
+            primaryColor: 'teal',
+            fontFamily: imbFont.style.fontFamily,
+            headings: { fontFamily: latoFont.style.fontFamily },
+            components: {
+              TypographyStylesProvider: {
+                variants: {
+                  post: () => ({
+                    root: {
+                      fontSize: '1.2em',
+                      lineHeight: '1.6em',
+                    },
+                  }),
                 },
               },
-            }}>
-            <Metadata />
-            <SessionContextProvider
-              supabaseClient={supabaseClient}
-              initialSession={pageProps.initialSession}>
-              <Component {...pageProps} />
-            </SessionContextProvider>
-          </MantineProvider>
-        </ColorSchemeProvider>
-      </PlausibleProvider>
-    </>
+            },
+          }}>
+          <Metadata />
+          <SessionContextProvider
+            supabaseClient={supabaseClient}
+            initialSession={pageProps.initialSession}>
+            <Component {...pageProps} />
+          </SessionContextProvider>
+        </MantineProvider>
+      </ColorSchemeProvider>
+    </PlausibleProvider>
   )
 }
 
-_App.getInitialProps = async ({ ctx }: AppContext) => {
-  const theme = (ctx.req as any)?.cookies?.theme
+_App.getInitialProps = async (appContext: AppContext) => {
+  const appProps = await NextApp.getInitialProps(appContext)
 
-  return { pageProps: { theme } }
+  const colorScheme =
+    ((appContext.ctx.req as any)?.cookies?.[
+      'mantine-color-scheme'
+    ] as ColorScheme) || 'dark'
+
+  return {
+    ...appProps,
+    pageProps: {
+      ...appProps.pageProps,
+      colorScheme,
+    },
+  }
 }
