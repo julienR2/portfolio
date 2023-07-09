@@ -30,7 +30,7 @@ export default function AppLayout({ title, children }: AppLAyoutProps) {
     <>
       <Metadata title={title} />
       <Container size="sm">
-        <Stack h="100vh">
+        <Stack h="100dvh">
           <Group position="apart" py="xl">
             <Anchor
               component={Link}
