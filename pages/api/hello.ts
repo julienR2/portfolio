@@ -20,5 +20,5 @@ export default async function handler(
     data: { user },
   } = await supabaseServerClient.auth.getUser()
 
-  res.status(200).json({ name: user?.email ?? '' })
+  res.status(200).json({ email: user?.email ?? '' })
 }
