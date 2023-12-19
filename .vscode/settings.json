@@ -3,7 +3,7 @@
   // Sort imports and automatically remove
   // unused imports when pressing CTRL + S
   "editor.codeActionsOnSave": {
-    "source.fixAll": true,
-    "source.organizeImports": true
+    "source.fixAll": "explicit",
+    "source.organizeImports": "explicit"
   }
 }
